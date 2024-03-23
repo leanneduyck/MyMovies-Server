@@ -19,83 +19,115 @@
     <ul>
       1. Return a list of all movies to user.
       <li>description: returns complete array of movies</li>
-      <li>endpoint url</li>
+      <li>endpoint url: localhost:8889/movies</li>
       <li>method type: GET</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: movies</li>
+      <li>format of data expected in body of request: list of movies</li>
+      <li>format of response data: json</li>
     </ul>
     <ul>
       2. Return data about a single movie by title to user.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: returns one movie's info</li>
+      <li>
+        endpoint url:
+        localhost:8889/movies/Harry%20Potter%20and%20the%20Prisoner%20of%20Azkaban
+      </li>
       <li>method type: GET</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: movies/:title</li>
+      <li>
+        format of data expected in body of request: one movie and all info of
+        that movie
+      </li>
+      <li>format of response data: json</li>
     </ul>
     <ul>
       3. Return data about a genre by name/title.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: returns list of movies with specific genre</li>
+      <li>endpoint url: localhost:8889/movies/genre/Fantasy</li>
       <li>method type: GET</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: movies/:genre/:genreName</li>
+      <li>
+        format of data expected in body of request: returns list of movies with
+        specified genre
+      </li>
+      <li>format of response data: json</li>
     </ul>
     <ul>
       4. Return data about a director by name.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: returns one director's info</li>
+      <li>endpoint url: localhost:8889/movies/director/David%20Yates</li>
       <li>method type: GET</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: movies/:director/:directorName</li>
+      <li>
+        format of data expected in body of request: returns one director and all
+        info about him
+      </li>
+      <li>format of response data: json</li>
     </ul>
     <ul>
       5. Allow new users to register.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: new user registers, is auto assigned ID</li>
+      <li>endpoint url: localhost:8889/users</li>
       <li>method type: POST</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: /users</li>
+      <li>
+        format of data expected in body of request: user name, favoriteMovies,
+        id
+      </li>
+      <li>format of response data: json</li>
     </ul>
     <ul>
       6. Allow users to update their user info.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: users can update their info</li>
+      <li>endpoint url: localhost:8889/users/1</li>
       <li>method type: PUT</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: users/:id</li>
+      <li>
+        format of data expected in body of request: user name, favoriteMovies,
+        id
+      </li>
+      <li>format of response data: json</li>
     </ul>
     <ul>
       7. Allow users to add a movie to their list of favorites.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: users add movies to favoriteMovies</li>
+      <li>
+        endpoint url:
+        localhost:8889/users/1/Harry%20Potter%20and%20the%20Prisoner%20of%20Azkaban
+      </li>
       <li>method type: POST</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: users/:id/:movieTitle</li>
+      <li>
+        format of data expected in body of request: confirms to user that movie
+        is added to list
+      </li>
+      <li>format of response data: html</li>
     </ul>
     <ul>
       8. Allow users to remove a movie from their list of favorites.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: user can remove favoriteMovies</li>
+      <li>
+        endpoint url: localhost:8889/users/1/The%20Prisoner%20of%20Azkaban
+      </li>
       <li>method type: DELETE</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: users/:id/:movieTitle</li>
+      <li>
+        format of data expected in body of request: confirms to user that movie
+        has been removed
+      </li>
+      <li>format of response data: html</li>
     </ul>
     <ul>
       9. Allow existing users to deregister.
-      <li>description</li>
-      <li>endpoint url</li>
+      <li>description: removes user</li>
+      <li>endpoint url: localhost:8889/users/1</li>
       <li>method type: DELETE</li>
-      <li>paramenters in url</li>
-      <li>format of data expected in body of request</li>
-      <li>format of response data</li>
+      <li>paramenters in url: users/:id</li>
+      <li>
+        format of data expected in body of request: confirms to user that user
+        has been removed
+      </li>
+      <li>format of response data: html</li>
     </ul>
   </body>
 </html>

@@ -4,7 +4,8 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   uuid = require("uuid");
 
-app.use(bodyParser.json());
+// would only pass in Postman without bodyParser
+// app.use(bodyParser.json());
 
 let users = [
   {
@@ -23,7 +24,7 @@ let movies = [
   {
     Title: "Harry Potter and the Sorcerer's Stone",
     Release: "2001",
-    Genre: "Adventure, Fantasy",
+    Genre: "Fantasy",
     Description:
       "An orphaned boy enrolls in a school of wizardry, where he learns the truth about himself, his family, and the terrible evil that haunts the magical world.",
     Rating: "PG",
@@ -296,9 +297,7 @@ app.post("/users/:id/:movieTitle", (req, res) => {
   if (user) {
     user.favoriteMovies.push(movieTitle);
     // text confirming movie added
-    res
-      .status(200)
-      .send(`${movieTitle} has been added to User ${id}/n's array.`);
+    res.status(200).send(`${movieTitle} has been added to User ${id}s array.`);
   } else {
     res.status(400).send("No such movie.");
   }
@@ -317,7 +316,7 @@ app.delete("/users/:id/:movieTitle", (req, res) => {
     // text confirming movie removed
     res
       .status(200)
-      .send(`${movieTitle} has been removed from User ${id}/n's array.`);
+      .send(`${movieTitle} has been removed from User ${id}s array.`);
   } else {
     res.status(400).send("No such user.");
   }
@@ -338,7 +337,7 @@ app.delete("/users/:id", (req, res) => {
 });
 
 // listening
-app.listen(8888, () => console.log("Listening on Port 8888."));
+app.listen(8889, () => console.log("Listening on Port 8889."));
 
 // original code from earlier assignment
 
