@@ -245,24 +245,27 @@ app.get("/movies/director/:directorName", (req, res) => {
   const { directorName } = req.params;
   // only returns director section
   const director = movies.find(
-    (movie) => movie.Director === directorName
-  ).Director;
-  // checks return, 200 is OK, 400 is bad request
+    (movie) => movie?.Director?.Name === directorName
+  )?.Director;
+  // // checks return, 200 is OK, 400 is bad request
   if (director) {
     res.status(200).json(director);
   } else {
-    res.status(400).send("No such genre.");
+    res.status(400).send("No such director.");
   }
+  return res.status(200);
 });
 
 // 5. CREATE, register users
-app.post("/users", req, (res) => {
+app.post("/users", (req, res) => {
   // uses bodyParser
   const newUser = req.body;
   // checks if user has name
   if (newUser.name) {
     // auto creates user id
     newUser.id = uuid.v4();
+    // empty array for favorite movies
+    newUser.favoriteMovies = [];
     users.push(newUser);
     // 201 is created
     res.status(201).json(newUser);
@@ -272,7 +275,7 @@ app.post("/users", req, (res) => {
 });
 
 // 6. UPDATE, updates users
-app.put("/users/:id", req, (res) => {
+app.put("/users/:id", (req, res) => {
   const { id } = req.params;
   const updatedUser = req.body;
   // user id and user name truthy equal
@@ -286,7 +289,7 @@ app.put("/users/:id", req, (res) => {
 });
 
 // 7. POST, users add movies to favorites list
-app.post("/users/:id/:movieTitle", req, (res) => {
+app.post("/users/:id/:movieTitle", (req, res) => {
   const { id, movieTitle } = req.params;
   // user id and user name truthy equal
   let user = users.find((user) => user.id == id);
@@ -295,14 +298,14 @@ app.post("/users/:id/:movieTitle", req, (res) => {
     // text confirming movie added
     res
       .status(200)
-      .send("${movieName} has been added to User ${id}/n's array.");
+      .send(`${movieTitle} has been added to User ${id}/n's array.`);
   } else {
-    res.status(400).send("No such user.");
+    res.status(400).send("No such movie.");
   }
 });
 
 // 8. DELETE, users remove movie from list
-app.delete("/users/:id/:movieTitle", req, (res) => {
+app.delete("/users/:id/:movieTitle", (req, res) => {
   const { id, movieTitle } = req.params;
   // user id and user name truthy equal
   let user = users.find((user) => user.id == id);
@@ -314,21 +317,21 @@ app.delete("/users/:id/:movieTitle", req, (res) => {
     // text confirming movie removed
     res
       .status(200)
-      .send("${movieTitle} has been removed from User ${id}/n's array.");
+      .send(`${movieTitle} has been removed from User ${id}/n's array.`);
   } else {
     res.status(400).send("No such user.");
   }
 });
 
 // 9. DELETE, users may deregister
-app.delete("/users/:id", req, (res) => {
+app.delete("/users/:id", (req, res) => {
   const { id } = req.params;
   let user = users.find((user) => user.id == id);
   if (user) {
     // only users not matching deleted user stay in array
     users = users.filter((user) => user.id != id);
     // text confirming user removed
-    res.status(200).send("User ${id} has been removed.");
+    res.status(200).send(`User ${id} has been removed.`);
   } else {
     res.status(400).send("No such user.");
   }
