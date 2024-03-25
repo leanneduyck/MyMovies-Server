@@ -4,8 +4,7 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   uuid = require("uuid");
 
-// would only pass in Postman without bodyParser
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 let users = [
   {
@@ -41,7 +40,7 @@ let movies = [
   {
     Title: "Harry Potter and the Chamber of Secrets",
     Release: "2002",
-    Genre: "Adventure, Fantasy",
+    Genre: "Fantasy",
     Description:
       "An ancient prophecy seems to be coming true when a mysterious presence begins stalking the corridors of a school of magic and leaving its victims paralyzed.",
     Rating: "PG",
@@ -58,7 +57,7 @@ let movies = [
   {
     Title: "Harry Potter and the Prisoner of Azkaban",
     Release: "2004",
-    Genre: "Adventure, Fantasy",
+    Genre: "Fantasy",
     Description:
       "Harry Potter, Ron, and Hermione return to Hogwarts School of Witchcraft and Wizardry for their third year of study, where they delve into the myster surrounding an escaped prisoner who poses a dangerous threat to the young wizard.",
     Rating: "PG",
@@ -75,7 +74,7 @@ let movies = [
   {
     Title: "Harry Potter and the Goblet of Fire",
     Release: "2005",
-    Genre: "Adventure, Fantasy",
+    Genre: "Drama",
     Description:
       "Harry Potter finds himself competing in a hazardous tournament between rival schools of magic, but he is distracted by recurring nightmares.",
     Rating: "PG-13",
@@ -92,7 +91,7 @@ let movies = [
   {
     Title: "Harry Potter and the Order of the Pheonix",
     Release: "2007",
-    Genre: "Adventure, Fantasy",
+    Genre: "Drama",
     Description:
       "With their warning about Lord Voldemort's return scoffed at, Harry and Dumbledore are targeted by the Wizard authorities as an authoritarian bureaucrat slowly seizes power at Hogwarts.",
     Rating: "PG-13",
@@ -109,7 +108,7 @@ let movies = [
   {
     Title: "Harry Potter and the Half-Blood Prince",
     Release: "2009",
-    Genre: "Adventure, Fantasy",
+    Genre: "Drama",
     Description:
       "As Harry Potter begins his sixth year at Hogwarts, he discovers an old book marked as 'the property of the Half-Blood Prince' and begins to learn more about Lord Voldemort's dark past.",
     Rating: "PG",
@@ -126,7 +125,7 @@ let movies = [
   {
     Title: "Harry Potter and the Deathly Hallows: Part 1",
     Release: "2010",
-    Genre: "Adventure, Fantasy",
+    Genre: "Drama",
     Description:
       "As Harry, Ron, and Hermione race against time and evil to destroy the Horcruxes, they uncover the existence of the three most powerful objects in the wizarding world: the Deathly Hallows.",
     Rating: "PG-13",
@@ -143,7 +142,7 @@ let movies = [
   {
     Title: "Harry Potter and the Deathly Hallows: Part 2",
     Release: "2011",
-    Genre: "Adventure, Fantasy",
+    Genre: "Drama",
     Description:
       "Harry, Ron, and Hermione search for Voldemort's remaining Horcruxes in their effort to destroy the Dark Lord as the final battle rages on at Hogwarts.",
     Rating: "PG-13",
@@ -160,7 +159,7 @@ let movies = [
   {
     Title: "The Lord of the Rings: The Fellowship of the Ring",
     Release: "2001",
-    Genre: "Adventure, Fantasy",
+    Genre: "Adventure",
     Description:
       "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-Earth from the Dark Lord Sauron.",
     Rating: "PG-13",
@@ -177,7 +176,7 @@ let movies = [
   {
     Title: "The Lord of the Rings: The Two Towers",
     Release: "2002",
-    Genre: "Adventure, Fantasy",
+    Genre: "Adventure",
     Description:
       "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided Fellowhip makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
     Rating: "PG-13",
@@ -194,7 +193,7 @@ let movies = [
   {
     Title: "The Lord of the Rings: The Return of the King",
     Release: "2003",
-    Genre: "Adventure, Fantasy",
+    Genre: "Adventure",
     Description:
       "Gandalf and Aaragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mt. Doom with the One Ring.",
     Rating: "PG-13",
