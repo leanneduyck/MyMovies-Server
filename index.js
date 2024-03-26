@@ -4,6 +4,7 @@ const express = require("express"),
   uuid = require("uuid");
 const morgan = require("morgan");
 const nodemon = require("nodemon");
+require("dotenv").config();
 
 // also import built-ins to log user requests to log.txt file
 //(fs = require("fs")), (path = require("path"));
@@ -23,7 +24,10 @@ const Directors = Models.Director;
 
 // connects to database so can do crud on documents
 mongoose
-  .connect("mongodb://localhost:27017/MyMovies")
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1`
+  )
+  //.connect("mongodb://localhost:27017/MyMovies")
   //useNewUrlParser: true,
   //useUnifiedTopology: true,
   .then(() => {
@@ -426,6 +430,7 @@ app.delete("/users/:Username", async (req, res) => {
 // listens to port
 
 // access documentation.html using express.static
+
 app.use("/documentation", express.static("public"));
 
 // listen on port

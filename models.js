@@ -17,7 +17,7 @@ let movieSchema = mongoose.Schema({
 });
 
 let userSchema = mongoose.Schema({
-  Name: { type: String, required: true },
+  Username: { type: String, required: true },
   Birthday: { type: String, required: true },
   Email: { type: String, required: true },
   Password: { type: String, required: true },
@@ -31,6 +31,5 @@ let User = mongoose.model("User", userSchema);
 // export models so can be imported into index.js
 module.exports.Movie = Movie;
 module.exports.User = User;
-
 //module.exports.Genre = Genre;
 //module.exports.Director = Director;
