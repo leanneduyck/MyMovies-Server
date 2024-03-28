@@ -19,7 +19,7 @@
     <ul>
       1. Return a list of all movies to user.
       <li>description: returns complete array of movies</li>
-      <li>endpoint url: localhost:8888/movies</li>
+      <li>endpoint url: localhost:5000/movies</li>
       <li>method type: GET</li>
       <li>paramenters in url: movies</li>
       <li>format of data expected in body of request: list of movies</li>
@@ -30,7 +30,7 @@
       <li>description: returns one movie's complete info</li>
       <li>
         endpoint url:
-        localhost:8888/movies/Harry%20Potter%20and%20the%20Prisoner%20of%20Azkaban
+        localhost:5000/movies/Harry%20Potter%20and%20the%20Prisoner%20of%20Azkaban
       </li>
       <li>method type: GET</li>
       <li>paramenters in url: movies/:Title</li>
@@ -43,7 +43,7 @@
     <ul>
       3. Return data about a genre by name.
       <li>description: returns array of movies with specific genre</li>
-      <li>endpoint url: localhost:8888/movies/genre/Fantasy</li>
+      <li>endpoint url: localhost:5000/movies/genre/Fantasy</li>
       <li>method type: GET</li>
       <li>paramenters in url: movies/:Genre/:Name</li>
       <li>
@@ -55,7 +55,7 @@
     <ul>
       4. Return data about a director by name.
       <li>description: returns one director's complete info</li>
-      <li>endpoint url: localhost:8888/movies/director/David%20Yates</li>
+      <li>endpoint url: localhost:5000/movies/director/David%20Yates</li>
       <li>method type: GET</li>
       <li>paramenters in url: movies/:Director/:Name</li>
       <li>
@@ -63,6 +63,9 @@
         info about him
       </li>
       <li>format of response data: json</li>
+    </ul>
+    <ul>
+      5a. Returns full list of users.
     </ul>
     <ul>
       5. Allow new users to register.
