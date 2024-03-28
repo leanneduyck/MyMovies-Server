@@ -11,11 +11,11 @@ require("dotenv").config();
 
 const app = express();
 // refuses to run in Postman when I include bodyParser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 // ensures express available in auth.js file, also requires passport module
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 //let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
@@ -125,16 +125,20 @@ app.get(
 );
 
 // 5a. GET, returns all users
-app.get("/users", async (req, res) => {
-  await Users.find()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/users",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    await Users.find()
+      .then((users) => {
+        res.json(users);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
 // no authenticaion for this endpoint otherwise can't ever create new user
