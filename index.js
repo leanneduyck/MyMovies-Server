@@ -16,7 +16,7 @@ const app = express();
 
 // ensures express available in auth.js file, also requires passport module
 //app.use(bodyParser.urlencoded({ extended: true }));
-//let auth = require("./auth")(app);
+let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
@@ -172,6 +172,7 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    console.log(req.body);
     await Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
@@ -227,7 +228,7 @@ app.delete(
   "/movies",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    await Movies.findOneandDelete({ Title: req.query.Title })
+    await Movies.deleteOne({ Title: req.query.Title })
       // confirmation response with status to client
       .then((user) => {
         if (!user) {
@@ -249,7 +250,7 @@ app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    await Users.findOneandDelete({ Username: req.params.Username })
+    await Users.deleteOne({ Username: req.params.Username })
       // confirmation response with status to client
       .then((user) => {
         if (!user) {
