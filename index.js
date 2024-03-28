@@ -11,7 +11,7 @@ require("dotenv").config();
 
 const app = express();
 // refuses to run in Postman when I include bodyParser
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: true }));
 
 // ensures express available in auth.js file, also requires passport module
