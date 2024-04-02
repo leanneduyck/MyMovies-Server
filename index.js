@@ -1,21 +1,24 @@
-// require express, also morgan
+// require express, also morgan and nodemon
 const express = require("express"),
-  bodyParser = require("body-parser"),
+  app = express(),
   uuid = require("uuid");
 const morgan = require("morgan");
 const nodemon = require("nodemon");
 require("dotenv").config();
 
-// also import built-ins to log user requests to log.txt file
+// also import built-ins to log user requests to log.txt file?
 //(fs = require("fs")), (path = require("path"));
 
-const app = express();
-// refuses to run in Postman when I include bodyParser
-app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json);
+
+//use CORS, allows access from all domains as per 2.10 instructions
+const cors = require("cors");
+app.use(cors());
+
+// express validator library
+const { check, validationResult } = require("express-validator");
 
 // ensures express available in auth.js file, also requires passport module
-//app.use(bodyParser.urlencoded({ extended: true }));
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
@@ -57,7 +60,7 @@ app.get(
     await Movies.find()
       // confirmation response to client with all movie documents
       .then((movies) => {
-        res.status(201).json(movies);
+        res.status(200).json(movies);
       })
       // error handling, status 500 server error
       .catch((err) => {
@@ -141,37 +144,85 @@ app.get(
 );
 
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
-// no authenticaion for this endpoint otherwise can't ever create new user
-app.post("/users/create", async (req, res) => {
-  // checks if user already exists
-  await Users.findOne({ Name: req.body.Username }).then((user) => {
-    if (user) {
-      return res.status(400).send(req.body.Username + "User already exists.");
-    } else {
-      // otherwise, creates new user document, Mongoose translates Node.js into MongoDB
-      Users.create({
-        Username: req.body.Username,
-        Birthday: req.body.Birthday,
-        Email: req.body.Email,
-        Password: req.body.Password,
-      })
-        // confirmation response to client with status code and user document
-        .then((user) => {
-          res.status(201).json(user);
-        })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send("Error: " + error);
-        });
+// no jwt authorization so new users can access
+app.post(
+  "/users/create",
+  // validation for username, email, pw
+  [
+    check(
+      "Username",
+      "Username is required, with a minimum of 5 characters."
+    ).isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumberic characters which is not allowed."
+    ).isAlphanumeric(),
+    check("Username", "Username is required.").not().isEmpty(),
+    check("Email", "Email does not appear to be valid.").isEmail(),
+    check("Email", "Email is required.").not().isEmpty(),
+    check("Password", "Password is required.").not().isEmpty(),
+  ],
+  async (req, res) => {
+    // checks validation for errors, will not execute if error found
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(442).json({ errors: errors.array() });
     }
-  });
-});
+    // hashes pw
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    // checks if user already exists
+    await Users.findOne({ Name: req.body.Username }).then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + " already exists.");
+      } else {
+        // otherwise, creates new user document, Mongoose translates Node.js into MongoDB
+        Users.create({
+          Username: req.body.Username,
+          Birthday: req.body.Birthday,
+          Email: req.body.Email,
+          Password: hashedPassword,
+        })
+          // confirmation response to client with status code and user document
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
+    });
+  }
+);
 
-// 6. UPDATE, update user, sends jwt token along
+// 6. UPDATE, update user
 app.put(
   "/users/:Username",
+  // validation for username, email, pw
+  [
+    check(
+      "Username",
+      "Username is required, with a minimum of 5 characters."
+    ).isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumberic characters which is not allowed."
+    ).isAlphanumeric(),
+    check("Username", "Username is required.").not().isEmpty(),
+    check("Email", "Email does not appear to be valid.").isEmail(),
+    check("Email", "Email is required.").not().isEmpty(),
+    check("Password", "Password is required.").not().isEmpty(),
+  ],
+  // sends jwt token along
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    // checks validation for errors, will not execute if error found
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(442).json({ errors: errors.array() });
+    }
+    // hashes pw
+    let hashedPassword = Users.hashPassword(req.body.Password);
     console.log(req.body);
     await Users.findOneAndUpdate(
       { Username: req.params.Username },
