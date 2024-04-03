@@ -35,8 +35,15 @@ const Directors = Models.Director;
 // connects to database so can do crud on documents
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
+    "mongodb+srv://leannemdk:_3kKpyaNxDiGKa5@cluster1.lx41vnw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
   )
+  //}
+  //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
+  //)
   .then(() => {
     console.log("Connected to MongoDB.");
   })
@@ -322,7 +329,8 @@ app.delete(
 
 app.use("/documentation", express.static("public"));
 
-// listen on port
-app.listen(5050, () => {
-  console.log("Listening on Port 5050.");
+// listen on port, no longer locally hosted
+const port = process.env.PORT || 5050;
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
