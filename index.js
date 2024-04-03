@@ -1,9 +1,8 @@
 // require express, also morgan and nodemon
-const express = require("express"),
-  app = express(),
-  uuid = require("uuid");
+const express = require("express");
+const app = express();
+const uuid = require("uuid");
 const morgan = require("morgan");
-const nodemon = require("nodemon");
 require("dotenv").config();
 
 // also import built-ins to log user requests to log.txt file?
@@ -29,17 +28,14 @@ const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genres = Models.Genre;
-const Directors = Models.Director;
+// const Genres = Models.Genre; //not used
+// const Directors = Models.Director; //not used
 
 console.log("MongoDB URI:", process.env.CONNECTION_URI);
 
 // connects to database so can do crud on documents
 mongoose
-  .connect(process.env.CONNECTION_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.CONNECTION_URI)
   //} local connection
   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
   //)
@@ -62,6 +58,15 @@ app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    try {
+      const movies = await Movies.find();
+      res.status(200).json(movies);
+    } catch (err) {
+      // error handling, status 500 server error
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    }
+    /**
     // no parameters, will return all movies
     await Movies.find()
       // confirmation response to client with all movie documents
@@ -73,7 +78,8 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  }
+      */
+  },
 );
 
 // 2. READ, returns one document via movie title, sends jwt token along
@@ -92,7 +98,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  }
+  },
 );
 
 // 3. READ, return data by genre, sends jwt token along
@@ -111,7 +117,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  }
+  },
 );
 
 // 4. READ, return data by director, sends jwt token along
@@ -119,6 +125,16 @@ app.get(
   "/movies/Director/:Name",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    try {
+      // pass parameter of director name to find all movie documents w/that director
+      const movies = await Movies.find({ "Director.Name": req.params.Name });
+      res.json(movies);
+    } catch (err) {
+      // error handling, status 500 server error
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    }
+    /** DONT DO THIS
     // pass parameter of director name to find all movie documents w/that director
     await Movies.find({ "Director.Name": req.params.Name })
       // confirmation response to client with movie documents w/passed director
@@ -129,8 +145,8 @@ app.get(
       .catch((err) => {
         console.error(err);
         res.status(500).send("Error: " + err);
-      });
-  }
+      }); */
+  },
 );
 
 // 5a. GET, returns all users
@@ -146,7 +162,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  }
+  },
 );
 
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
@@ -157,11 +173,11 @@ app.post(
   [
     check(
       "Username",
-      "Username is required, with a minimum of 5 characters."
+      "Username is required, with a minimum of 5 characters.",
     ).isLength({ min: 5 }),
     check(
       "Username",
-      "Username contains non alphanumberic characters which is not allowed."
+      "Username contains non alphanumberic characters which is not allowed.",
     ).isAlphanumeric(),
     check("Username", "Username is required.").not().isEmpty(),
     check("Email", "Email does not appear to be valid.").isEmail(),
@@ -198,7 +214,7 @@ app.post(
           });
       }
     });
-  }
+  },
 );
 
 // 6. UPDATE, update user
@@ -208,11 +224,11 @@ app.put(
   [
     check(
       "Username",
-      "Username is required, with a minimum of 5 characters."
+      "Username is required, with a minimum of 5 characters.",
     ).isLength({ min: 5 }),
     check(
       "Username",
-      "Username contains non alphanumberic characters which is not allowed."
+      "Username contains non alphanumberic characters which is not allowed.",
     ).isAlphanumeric(),
     check("Username", "Username is required.").not().isEmpty(),
     check("Email", "Email does not appear to be valid.").isEmail(),
@@ -242,7 +258,7 @@ app.put(
         },
       },
       // confirmation response to client with updated document
-      { new: true }
+      { new: true },
     )
       .then((updatedUser) => {
         res.json(updatedUser);
@@ -252,7 +268,7 @@ app.put(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  }
+  },
 );
 
 // 7. CREATE, users add movies to favorites list, sends jwt token along
@@ -267,7 +283,7 @@ app.post(
         $push: { FavoriteMovies: req.params.MovieID },
       },
       // confirmation response to client with updated document
-      { new: true }
+      { new: true },
     )
       .then((updatedUser) => {
         res.json(updatedUser);
@@ -277,7 +293,7 @@ app.post(
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  }
+  },
 );
 
 // 8. DELETE, users remove movies from list, sends jwt token along
@@ -299,7 +315,7 @@ app.delete(
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  }
+  },
 );
 
 // 9. DELETE, removes user, sends jwt token along
@@ -321,7 +337,7 @@ app.delete(
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  }
+  },
 );
 
 // access documentation.html using express.static
