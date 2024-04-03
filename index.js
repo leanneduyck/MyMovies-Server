@@ -32,6 +32,8 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 
+console.log("MongoDB URI:", process.env.CONNECTION_URI);
+
 // connects to database so can do crud on documents
 mongoose
   .connect(process.env.CONNECTION_URI, {
@@ -323,11 +325,15 @@ app.delete(
 );
 
 // access documentation.html using express.static
-
 app.use("/documentation", express.static("public"));
 
 // listen on port, no longer locally hosted
-const port = process.env.PORT || 5050;
-app.listen(port, "0.0.0.0", () => {
-  console.log("Listening on Port " + port);
+//const port = process.env.PORT || 5050;
+//app.listen(port, "0.0.0.0", () => {
+//console.log("Listening on Port " + port);
+//});
+
+const PORT = process.env.PORT || 8889;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
