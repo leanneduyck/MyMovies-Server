@@ -34,14 +34,11 @@ const Directors = Models.Director;
 
 // connects to database so can do crud on documents
 mongoose
-  .connect(
-    "mongodb+srv://leannemdk:_3kKpyaNxDiGKa5@cluster1.lx41vnw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  //}
+  .connect(process.env.CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  //} local connection
   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
   //)
   .then(() => {
