@@ -28,8 +28,6 @@ const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
-// const Genres = Models.Genre; //not used
-// const Directors = Models.Director; //not used
 
 console.log("MongoDB URI:", process.env.CONNECTION_URI);
 
@@ -46,7 +44,7 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
-// sets up log.txt to receive user requests log
+// sets up log.txt to receive user requests log; do we still need this?
 // const accessLogStream = fs.createWriteStream(path.join__dirname, "log.txt");
 
 app.get("/", (req, res) => {
@@ -79,7 +77,7 @@ app.get(
         res.status(500).send("Error: " + err);
       });
       */
-  },
+  }
 );
 
 // 2. READ, returns one document via movie title, sends jwt token along
@@ -87,7 +85,6 @@ app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    // pass parameter of title to find movie
     await Movies.findOne({ Title: req.params.Title })
       // confirmation response to client with movie document
       .then((movies) => {
@@ -98,7 +95,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  },
+  }
 );
 
 // 3. READ, return data by genre, sends jwt token along
@@ -117,7 +114,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  },
+  }
 );
 
 // 4. READ, return data by director, sends jwt token along
@@ -146,7 +143,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       }); */
-  },
+  }
 );
 
 // 5a. GET, returns all users
@@ -162,7 +159,7 @@ app.get(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  },
+  }
 );
 
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
@@ -173,11 +170,11 @@ app.post(
   [
     check(
       "Username",
-      "Username is required, with a minimum of 5 characters.",
+      "Username is required, with a minimum of 5 characters."
     ).isLength({ min: 5 }),
     check(
       "Username",
-      "Username contains non alphanumberic characters which is not allowed.",
+      "Username contains non alphanumberic characters which is not allowed."
     ).isAlphanumeric(),
     check("Username", "Username is required.").not().isEmpty(),
     check("Email", "Email does not appear to be valid.").isEmail(),
@@ -214,7 +211,7 @@ app.post(
           });
       }
     });
-  },
+  }
 );
 
 // 6. UPDATE, update user
@@ -224,11 +221,11 @@ app.put(
   [
     check(
       "Username",
-      "Username is required, with a minimum of 5 characters.",
+      "Username is required, with a minimum of 5 characters."
     ).isLength({ min: 5 }),
     check(
       "Username",
-      "Username contains non alphanumberic characters which is not allowed.",
+      "Username contains non alphanumberic characters which is not allowed."
     ).isAlphanumeric(),
     check("Username", "Username is required.").not().isEmpty(),
     check("Email", "Email does not appear to be valid.").isEmail(),
@@ -258,7 +255,7 @@ app.put(
         },
       },
       // confirmation response to client with updated document
-      { new: true },
+      { new: true }
     )
       .then((updatedUser) => {
         res.json(updatedUser);
@@ -268,7 +265,7 @@ app.put(
         console.error(err);
         res.status(500).send("Error: " + err);
       });
-  },
+  }
 );
 
 // 7. CREATE, users add movies to favorites list, sends jwt token along
@@ -283,7 +280,7 @@ app.post(
         $push: { FavoriteMovies: req.params.MovieID },
       },
       // confirmation response to client with updated document
-      { new: true },
+      { new: true }
     )
       .then((updatedUser) => {
         res.json(updatedUser);
@@ -293,7 +290,7 @@ app.post(
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  },
+  }
 );
 
 // 8. DELETE, users remove movies from list, sends jwt token along
@@ -315,7 +312,7 @@ app.delete(
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  },
+  }
 );
 
 // 9. DELETE, removes user, sends jwt token along
@@ -337,7 +334,7 @@ app.delete(
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  },
+  }
 );
 
 // access documentation.html using express.static
