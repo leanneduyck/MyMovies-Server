@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const uuid = require("uuid");
 const morgan = require("morgan");
-const nodemon = require("nodemon");
+//const nodemon = require("nodemon");
 
 require("dotenv").config();
 
@@ -20,9 +20,9 @@ app.use(cors());
 const { check, validationResult } = require("express-validator");
 
 // ensures express available in auth.js file, also requires passport module
-let auth = require("./auth")(app);
+let auth = require("./auth.js")(app);
 const passport = require("passport");
-require("./passport");
+require("./passport.js");
 
 // imports mongoose and models
 const mongoose = require("mongoose");
