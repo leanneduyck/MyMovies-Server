@@ -314,6 +314,11 @@ app.delete(
   }
 );
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
 // access documentation.html using express.static
 app.use("/documentation", express.static("public"));
 
