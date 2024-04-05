@@ -1,4 +1,12 @@
-I buiilt this API built using Node.js.
-The API connects to a database on Atlas where users can search movies by title, genre, or director. Users can also store a list of favorite moves, as well as create and update a user profile. 
-The app is hosted on Heroku. 
+I have developed a RESTful API using Node.js with Express and MongoDB for a movie database application. 
+It sets up a server that exposes endpoints for performing CRUD operations on movies and users, including authentication (JWT) and validation (express-validator) mechanisms.
+It also utilizes async/await for handling asynchronous operations. 
+It is hosted on Heroku.
 During the building process, I used Postman to test endpoints at key stages of code development. 
+
+
+
+
+
+
+
