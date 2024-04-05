@@ -19,13 +19,13 @@ app.use(cors());
 const { check, validationResult } = require("express-validator");
 
 // ensures express available in auth.js file, also requires passport module
-let auth = require("/auth.js")(app);
+let auth = require("./auth.js")(app);
 const passport = require("passport");
-require("/passport.js");
+require("./passport.js");
 
 // imports mongoose and models
 const mongoose = require("mongoose");
-const Models = require("/models.js");
+const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
