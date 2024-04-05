@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const uuid = require("uuid");
 const morgan = require("morgan");
-//const nodemon = require("nodemon");
 
 require("dotenv").config();
 
