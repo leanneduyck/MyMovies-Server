@@ -9,7 +9,7 @@ require("dotenv").config();
 // also import built-ins to log user requests to log.txt file?
 //(fs = require("fs")), (path = require("path"));
 
-app.use(express.json);
+app.use(express.json());
 
 //use CORS, allows access from all domains as per 2.10 instructions
 const cors = require("cors");
