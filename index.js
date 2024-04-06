@@ -194,6 +194,66 @@ app.post(
 // 6. UPDATE, update user
 app.put(
   "/users/:Username",
+  [
+    check(
+      "Username",
+      "Username is required, with a minimum of 5 characters and should only contain alphanumeric characters."
+    )
+      .isLength({ min: 5 })
+      .isAlphanumeric(),
+    check("Email", "Email does not appear to be valid.").isEmail(),
+    check("Password", "Password is required.").not().isEmpty(),
+  ],
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    // Hashing the password if it's being updated
+    let hashedPassword = req.body.Password;
+    if (req.body.Password) {
+      hashedPassword = Users.hashPassword(req.body.Password);
+    }
+
+    // Construct update object with only provided fields
+    let updateObject = {};
+    if (req.body.Username) updateObject.Username = req.body.Username;
+    if (req.body.Birthday) updateObject.Birthday = req.body.Birthday;
+    if (req.body.Email) updateObject.Email = req.body.Email;
+    if (hashedPassword) updateObject.Password = hashedPassword;
+
+    // Check if any fields to update are provided
+    if (Object.keys(updateObject).length === 0) {
+      return res.status(400).json({ message: "No fields to update." });
+    }
+
+    try {
+      // Find and update user
+      let updatedUser = await Users.findOneAndUpdate(
+        { Username: req.params.Username },
+        { $set: updateObject },
+        { new: true }
+      );
+
+      // Check if user is found
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
+      res.json(updatedUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err.message);
+    }
+  }
+);
+
+// seeing if this is what is breaking heroku
+/*
+app.put(
+  "/users/:Username",
   // validation for username, email, pw
   [
     check(
@@ -248,6 +308,7 @@ app.put(
       });
   }
 );
+*/
 
 // 7. CREATE, users add movies to favorites list, sends jwt token along
 app.post(
