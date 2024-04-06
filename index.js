@@ -162,7 +162,7 @@ app.post(
     // checks validation for errors, will not execute if error found
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(442).json({ errors: errors.array() });
+      return res.status(422).json({ errors: errors.array() });
     }
     // hashes pw
     let hashedPassword = Users.hashPassword(req.body.Password);
@@ -215,11 +215,14 @@ app.put(
     // checks validation for errors, will not execute if error found
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(442).json({ errors: errors.array() });
+      return res.status(422).json({ errors: errors.array() });
     }
     // hashes pw
-    let hashedPassword = Users.hashPassword(req.body.Password);
-    console.log(req.body);
+    let hashedPassword = req.body.Password;
+    if (req.body.Password) {
+      hashedPassword = Users.hashPassword(req.body.Password);
+    }
+
     await Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
@@ -231,6 +234,7 @@ app.put(
           Password: req.body.Password,
         },
       },
+
       // confirmation response to client with updated document
       { new: true }
     )
