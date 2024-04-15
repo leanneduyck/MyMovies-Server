@@ -6,9 +6,6 @@ const morgan = require("morgan");
 
 require("dotenv").config();
 
-// also import built-ins to log user requests to log.txt file?
-//(fs = require("fs")), (path = require("path"));
-
 app.use(express.json());
 
 //use CORS, allows access from all domains as per 2.10 instructions
@@ -55,7 +52,8 @@ app.get("/", (req, res) => {
 // 1. READ, returns data for all movie documents, sends jwt token along
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
+  // removing authentication so can link with React for Ex 3.4
+  // passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const movies = await Movies.find();
