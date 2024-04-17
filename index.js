@@ -52,7 +52,6 @@ app.get("/", (req, res) => {
 // 1. READ, returns data for all movie documents, sends jwt token along
 app.get(
   "/movies",
-  removing authentication so can link with React for Ex 3.4
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
