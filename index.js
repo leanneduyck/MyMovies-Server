@@ -52,7 +52,8 @@ app.get("/", (req, res) => {
 // 1. READ, returns data for all movie documents, sends jwt token along
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
+  // testing why frontend won't work
+  //passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const movies = await Movies.find();
