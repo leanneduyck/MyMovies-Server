@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
 app.get(
   "/movies",
   // testing why frontend won't work
-  //passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const movies = await Movies.find();
