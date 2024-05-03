@@ -1,11 +1,10 @@
-<p>I have developed a RESTful API using Node.js with Express and MongoDB for a movie database application.</p>
-<p>It sets up a server that exposes endpoints for performing CRUD operations on movies and users, including authentication (JWT) and validation (express-validator) mechanisms.</p>
-<p>It also utilizes async/await for handling asynchronous operations.</p> 
-<p>It is hosted on Heroku.</p>
-<p>During the building process, I used Postman to test endpoints at key stages of code development.</p> 
+<p>This is a RESTful API built using Node.js with Express and MongoDB for a movie database application.</p>
+<p>It sets up the backend for MyMovies-Client repo. An unauthenticated user can sign up or log in. An authenticated user can view all movies in the database, edit user data, add/delete movies from a FavoriteMovies array, and delete the user's account. These action are performed via CRUD operations. Authentication includes JWT and express-validator validation.</p>
+<p>During the build process, I used Postam to test endpoints.</p>
+<p>The database is currently stored on MongoDB Atlas (at the beginning of the build, it was stored on MongoDB), and the server is hosted on Heroku.</p>
 <p>Techs Used:</p>
   <ul>
-    <li>Mongo DB plus Atlas</li>
+    <li>Mongo DB Atlas (initially MongoDB)</li>
     <li>Express</li>
     <li>Node.js</li>
     <li>Heroku</li>
@@ -16,7 +15,7 @@
    <ul>
      <li>Install Node: "nvm install --lts"</li>
      <li>Install Packages: be in working folder, "npm install"</li>
-     <li>add "node_modules" and ".env" to .gitignore file</li>
+     <li>Add "node_modules" and ".env" to .gitignore file</li>
      <li>Start Local Server: "npm start node.js"</li>
      <li>Push Changes to Heroku: "git push Heroku main"</li>
      <li>Check Heroku Errors: "heroku logs --tail"</li>
