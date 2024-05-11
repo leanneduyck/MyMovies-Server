@@ -8,7 +8,7 @@ require('dotenv').config();
 // also import built-ins to log user requests to log.txt file?
 //(fs = require("fs")), (path = require("path"));
 
-app.use(express.json);
+app.use(express.json());
 
 //use CORS, allows access from all domains as per 2.10 instructions
 const cors = require('cors');
@@ -340,7 +340,6 @@ app.delete(
 
 // access documentation.html using express.static
 app.use('/documentation', express.static('public'));
-
 // listen on port, no longer locally hosted
 //const port = process.env.PORT || 5050;
 //app.listen(port, "0.0.0.0", () => {
