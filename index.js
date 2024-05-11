@@ -296,7 +296,7 @@ app.post(
 
 // 8. DELETE, users remove movies from list, sends jwt token along
 app.delete(
-  '/movies',
+  '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     await Movies.deleteOne({ Title: req.query.Title })
