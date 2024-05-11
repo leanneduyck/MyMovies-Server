@@ -30,8 +30,6 @@ passport.use(
           }
           console.log('finished');
           return callback(null, user);
-
-          //testing
         })
         .catch((error) => {
           if (error) {
