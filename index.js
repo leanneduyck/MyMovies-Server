@@ -299,14 +299,17 @@ app.delete(
   '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    await Movies.deleteOne({ Title: req.query.Title })
-      // confirmation response with status to client
-      .then((user) => {
-        if (!user) {
-          res.status(400).send(req.query.Title + 'was not found.');
-        } else {
-          res.status(200).send(req.query.Title + ' was deleted.');
-        }
+    await Users.deleteOne(
+      { Username: req.params.Username },
+      {
+        // specifies what is being added to document
+        $pull: { FavoriteMovies: req.params.MovieID },
+      },
+      // confirmation response to client with updated document
+      { new: true }
+    )
+      .then((updatedUser) => {
+        res.json(updatedUser);
       })
       // error handling
       .catch((error) => {
