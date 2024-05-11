@@ -299,7 +299,7 @@ app.delete(
   '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    await Users.deleteOne(
+    await Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
         // specifies what is being added to document
