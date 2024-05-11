@@ -1,9 +1,9 @@
 // require express, also morgan and nodemon
-const express = require("express");
+const express = require('express');
 const app = express();
-const uuid = require("uuid");
-const morgan = require("morgan");
-require("dotenv").config();
+const uuid = require('uuid');
+const morgan = require('morgan');
+require('dotenv').config();
 
 // also import built-ins to log user requests to log.txt file?
 //(fs = require("fs")), (path = require("path"));
@@ -11,25 +11,25 @@ require("dotenv").config();
 app.use(express.json);
 
 //use CORS, allows access from all domains as per 2.10 instructions
-const cors = require("cors");
+const cors = require('cors');
 app.use(cors());
 
 // express validator library
-const { check, validationResult } = require("express-validator");
+const { check, validationResult } = require('express-validator');
 
 // ensures express available in auth.js file, also requires passport module
-let auth = require("./auth")(app);
-const passport = require("passport");
-require("./passport");
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
 
 //import mongoose and models
-const mongoose = require("mongoose");
-const Models = require("./models.js");
+const mongoose = require('mongoose');
+const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-console.log("MongoDB URI:", process.env.CONNECTION_URI);
+console.log('MongoDB URI:', process.env.CONNECTION_URI);
 
 // connects to database so can do crud on documents
 mongoose
@@ -38,23 +38,23 @@ mongoose
   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
   //)
   .then(() => {
-    console.log("Connected to MongoDB.");
+    console.log('Connected to MongoDB.');
   })
   .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
+    console.error('Error connecting to MongoDB:', error);
   });
 
 // sets up log.txt to receive user requests log; do we still need this?
 // const accessLogStream = fs.createWriteStream(path.join__dirname, "log.txt");
 
-app.get("/", (req, res) => {
-  res.send("Welcome to MyMovies!");
+app.get('/', (req, res) => {
+  res.send('Welcome to MyMovies!');
 });
 
 // 1. READ, returns data for all movie documents, sends jwt token along
 app.get(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
+  '/movies',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       const movies = await Movies.find();
@@ -62,7 +62,7 @@ app.get(
     } catch (err) {
       // error handling, status 500 server error
       console.error(err);
-      res.status(500).send("Error: " + err);
+      res.status(500).send('Error: ' + err);
     }
     /**
     // no parameters, will return all movies
@@ -82,8 +82,8 @@ app.get(
 
 // 2. READ, returns one document via movie title, sends jwt token along
 app.get(
-  "/movies/:Title",
-  passport.authenticate("jwt", { session: false }),
+  '/movies/:Title',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     await Movies.findOne({ Title: req.params.Title })
       // confirmation response to client with movie document
@@ -93,18 +93,18 @@ app.get(
       // error handling, status 500 server error
       .catch((err) => {
         console.error(err);
-        res.status(500).send("Error: " + err);
+        res.status(500).send('Error: ' + err);
       });
   }
 );
 
 // 3. READ, return data by genre, sends jwt token along
 app.get(
-  "/movies/Genre/:Name",
-  passport.authenticate("jwt", { session: false }),
+  '/movies/Genre/:Name',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     // pass parameter of genre name to find all movie documents w/that genre
-    await Movies.find({ "Genre.Name": req.params.Name })
+    await Movies.find({ 'Genre.Name': req.params.Name })
       // confirmation response to client with movie documents w/passed genre
       .then((movies) => {
         res.json(movies);
@@ -112,24 +112,24 @@ app.get(
       // error handling, status 500 server error
       .catch((err) => {
         console.error(err);
-        res.status(500).send("Error: " + err);
+        res.status(500).send('Error: ' + err);
       });
   }
 );
 
 // 4. READ, return data by director, sends jwt token along
 app.get(
-  "/movies/Director/:Name",
-  passport.authenticate("jwt", { session: false }),
+  '/movies/Director/:Name',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       // pass parameter of director name to find all movie documents w/that director
-      const movies = await Movies.find({ "Director.Name": req.params.Name });
+      const movies = await Movies.find({ 'Director.Name': req.params.Name });
       res.json(movies);
     } catch (err) {
       // error handling, status 500 server error
       console.error(err);
-      res.status(500).send("Error: " + err);
+      res.status(500).send('Error: ' + err);
     }
     /** DONT DO THIS
     // pass parameter of director name to find all movie documents w/that director
@@ -148,8 +148,8 @@ app.get(
 
 // 5a. GET, returns all users
 app.get(
-  "/users",
-  passport.authenticate("jwt", { session: false }),
+  '/users',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     await Users.find()
       .then((users) => {
@@ -157,7 +157,7 @@ app.get(
       })
       .catch((err) => {
         console.error(err);
-        res.status(500).send("Error: " + err);
+        res.status(500).send('Error: ' + err);
       });
   }
 );
@@ -165,21 +165,21 @@ app.get(
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
 // no jwt authorization so new users can access
 app.post(
-  "/users/create",
+  '/users/create',
   // validation for username, email, pw
   [
     check(
-      "Username",
-      "Username is required, with a minimum of 5 characters."
+      'Username',
+      'Username is required, with a minimum of 5 characters.'
     ).isLength({ min: 5 }),
     check(
-      "Username",
-      "Username contains non alphanumberic characters which is not allowed."
+      'Username',
+      'Username contains non alphanumberic characters which is not allowed.'
     ).isAlphanumeric(),
-    check("Username", "Username is required.").not().isEmpty(),
-    check("Email", "Email does not appear to be valid.").isEmail(),
-    check("Email", "Email is required.").not().isEmpty(),
-    check("Password", "Password is required.").not().isEmpty(),
+    check('Username', 'Username is required.').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid.').isEmail(),
+    check('Email', 'Email is required.').not().isEmpty(),
+    check('Password', 'Password is required.').not().isEmpty(),
   ],
   async (req, res) => {
     // checks validation for errors, will not execute if error found
@@ -192,7 +192,7 @@ app.post(
     // checks if user already exists
     await Users.findOne({ Name: req.body.Username }).then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + " already exists.");
+        return res.status(400).send(req.body.Username + ' already exists.');
       } else {
         // otherwise, creates new user document, Mongoose translates Node.js into MongoDB
         Users.create({
@@ -207,7 +207,7 @@ app.post(
           })
           .catch((error) => {
             console.error(error);
-            res.status(500).send("Error: " + error);
+            res.status(500).send('Error: ' + error);
           });
       }
     });
@@ -216,24 +216,24 @@ app.post(
 
 // 6. UPDATE, update user
 app.put(
-  "/users/:Username",
+  '/users/:Username',
   // validation for username, email, pw
   [
     check(
-      "Username",
-      "Username is required, with a minimum of 5 characters."
+      'Username',
+      'Username is required, with a minimum of 5 characters.'
     ).isLength({ min: 5 }),
     check(
-      "Username",
-      "Username contains non alphanumberic characters which is not allowed."
+      'Username',
+      'Username contains non alphanumberic characters which is not allowed.'
     ).isAlphanumeric(),
-    check("Username", "Username is required.").not().isEmpty(),
-    check("Email", "Email does not appear to be valid.").isEmail(),
-    check("Email", "Email is required.").not().isEmpty(),
-    check("Password", "Password is required.").not().isEmpty(),
+    check('Username', 'Username is required.').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid.').isEmail(),
+    check('Email', 'Email is required.').not().isEmpty(),
+    check('Password', 'Password is required.').not().isEmpty(),
   ],
   // sends jwt token along
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     // checks validation for errors, will not execute if error found
     let errors = validationResult(req);
@@ -251,7 +251,7 @@ app.put(
           Username: req.body.Username,
           Birthday: req.body.Birthday,
           Email: req.body.Email,
-          Password: req.body.Password,
+          Password: hashedPassword,
         },
       },
       // confirmation response to client with updated document
@@ -263,16 +263,17 @@ app.put(
       // error handling, status 500 server error
       .catch((err) => {
         console.error(err);
-        res.status(500).send("Error: " + err);
+        res.status(500).send('Error: ' + err);
       });
   }
 );
 
 // 7. CREATE, users add movies to favorites list, sends jwt token along
 app.post(
-  "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
+  '/users/:Username/movies/:MovieID',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
+    console;
     await Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
@@ -288,57 +289,57 @@ app.post(
       // error handling
       .catch((error) => {
         console.error(error);
-        res.status(500).send("Error: " + error);
+        res.status(500).send('Error: ' + error);
       });
   }
 );
 
 // 8. DELETE, users remove movies from list, sends jwt token along
 app.delete(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
+  '/movies',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     await Movies.deleteOne({ Title: req.query.Title })
       // confirmation response with status to client
       .then((user) => {
         if (!user) {
-          res.status(400).send(req.query.Title + "was not found.");
+          res.status(400).send(req.query.Title + 'was not found.');
         } else {
-          res.status(200).send(req.query.Title + " was deleted.");
+          res.status(200).send(req.query.Title + ' was deleted.');
         }
       })
       // error handling
       .catch((error) => {
         console.error(error);
-        res.status(500).send("Error: " + error);
+        res.status(500).send('Error: ' + error);
       });
   }
 );
 
 // 9. DELETE, removes user, sends jwt token along
 app.delete(
-  "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
+  '/users/:Username',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     await Users.deleteOne({ Username: req.params.Username })
       // confirmation response with status to client
       .then((user) => {
         if (!user) {
-          res.status(400).send(req.params.Username + "was not found.");
+          res.status(400).send(req.params.Username + 'was not found.');
         } else {
-          res.status(200).send(req.params.Username + " was deleted.");
+          res.status(200).send(req.params.Username + ' was deleted.');
         }
       })
       // error handling
       .catch((error) => {
         console.error(error);
-        res.status(500).send("Error: " + error);
+        res.status(500).send('Error: ' + error);
       });
   }
 );
 
 // access documentation.html using express.static
-app.use("/documentation", express.static("public"));
+app.use('/documentation', express.static('public'));
 
 // listen on port, no longer locally hosted
 //const port = process.env.PORT || 5050;
