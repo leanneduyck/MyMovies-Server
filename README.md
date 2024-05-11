@@ -17,7 +17,7 @@
      <li>Install Packages: be in working folder, "npm install"</li>
      <li>Add "node_modules" and ".env" to .gitignore file</li>
      <li>Start Local Server: "npm start node.js"</li>
-     <li>Push Changes to Heroku: "git push Heroku main"</li>
+     <li>Push Changes to Heroku: "git push Heroku main" / can also use "git push origin main"</li>
      <li>Check Heroku Errors: "heroku logs --tail"</li>
    </ul>
 <p>Website: https://my---movies-868565568c2a.herokuapp.com/</p>
