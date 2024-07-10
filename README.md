@@ -14,6 +14,7 @@ Data Source:
 This app pull data from a MongoDB Atlas database that I populated.
 
 Website: https://my---movies-868565568c2a.herokuapp.com/
+ClientSide GH Repo: https://github.com/leanneduyck/MyMovies-Client.git
 
 Technologies Used:
 
