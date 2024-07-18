@@ -13,9 +13,9 @@ Key Features:
 Data Source:
 This app pull data from a MongoDB Atlas database that I populated.
 
-Website: https://my---movies-868565568c2a.herokuapp.com/
-ClientSide Website: main--react-mymovies.netlify.app/
-ClientSide GH Repo: https://github.com/leanneduyck/MyMovies-Client.git
+<p>Website: https://my---movies-868565568c2a.herokuapp.com/</p>
+<p>ClientSide Website: main--react-mymovies.netlify.app/</p>
+<p>ClientSide GH Repo: https://github.com/leanneduyck/MyMovies-Client.git</p>
 
 Technologies Used:
 
@@ -33,6 +33,7 @@ Technologies Used:
 12. Data Validation: Ensures data integrity and security.
 13. Error Handling: Ensures the JavaScript code is error-free.
 14. JSON: Format for providing movie information.
+15. 15. Deployment: Heroku. 
 
 Setup Instructions/Commands:
 Local Setup:
