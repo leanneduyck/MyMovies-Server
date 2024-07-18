@@ -26,6 +26,13 @@ Technologies Used:
 5. Postman: Used for testing API endpoints and ensuring functionality.
 6. JWT Authentication: Provides secure authentication and authorization.
 7. Password Hashing: Ensures user passwords are securely stored using hashing techniques.
+8. Mongoose: Models the business logic and interacts with MongoDB.
+9. Body-Parser: Middleware for reading data from requests.
+10. Morgan: Middleware for logging HTTP requests.
+11. Package.json: File for managing project dependencies and scripts.
+12. Data Validation: Ensures data integrity and security.
+13. Error Handling: Ensures the JavaScript code is error-free.
+14. JSON: Format for providing movie information.
 
 Setup Instructions/Commands:
 Local Setup:
