@@ -1,5 +1,5 @@
 Overview:
-This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account.
+Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client. 
 
 Key Features:
 
