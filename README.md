@@ -40,13 +40,13 @@ Technologies Used:
 Setup Instructions/Commands:
 Local Setup:
 1.Install Node.js: 
-  a. Ensure Node.js LTS version is installed by running: nvm install --lts
-2. Install Packages: 
-  a. Navigate to the project directory and install dependencies by running: npm install
-3. Environment Variables: 
-  a. Add a .env file to manage environment variables like database URI and JWT secret. 
-4. Start Local Server: 
-  a.Run the server locally by running: npm start node.js
+  <p>a. Ensure Node.js LTS version is installed by running: nvm install --lts</p>
+<p>2. Install Packages:</p> 
+  <p>a. Navigate to the project directory and install dependencies by running: npm install</p>
+<p>3. Environment Variables:</p> 
+  <p>a. Add a .env file to manage environment variables like database URI and JWT secret.</p> 
+<p>4. Start Local Server:</p> 
+  <p>a.Run the server locally by running: npm start node.js</p>
 
 Deployment to Heroku:
 
