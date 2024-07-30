@@ -14,8 +14,10 @@ Data Source:
 This app pull data from a MongoDB Atlas database that I populated.
 
 <p>Website: https://my---movies-868565568c2a.herokuapp.com/</p>
-<p>ClientSide Website: main--react-mymovies.netlify.app/</p>
-<p>ClientSide GH Repo: https://github.com/leanneduyck/MyMovies-Client.git</p>
+<p>ClientSide Website (React): main--react-mymovies.netlify.app/</p>
+<p>ClientSide GH Repo (React): https://github.com/leanneduyck/MyMovies-Client.git</p>
+<p>Clientside Webiste (Angular): https://my-movies-angular.vercel.app/</p>
+<p>Clientside GH Repo (Angular): https://github.com/leanneduyck/myMovies-Angular.git</p>
 
 Technologies Used:
 
@@ -37,9 +39,16 @@ Technologies Used:
 
 Setup Instructions/Commands:
 Local Setup:
-1.Install Node.js: Ensure Node.js LTS version is installed. Use nvm install --lts. 2. Install Packages: Navigate to the project directory and install dependencies with npm install. 3. Environment Variables: Add a .env file to manage environment variables like database URI and JWT secret. 4. Start Local Server: Run the server locally with npm start node.js.
+1.Install Node.js: 
+  a. Ensure Node.js LTS version is installed by running: nvm install --lts
+2. Install Packages: 
+  a. Navigate to the project directory and install dependencies by running: npm install
+3. Environment Variables: 
+  a. Add a .env file to manage environment variables like database URI and JWT secret. 
+4. Start Local Server: 
+  a.Run the server locally by running: npm start node.js
 
 Deployment to Heroku:
 
-1. Push Changes: Push changes to your Heroku remote branch using git push heroku main or git push origin main.
-2. Check Logs: Monitor logs on Heroku for any errors or debugging messages using heroku logs --tail.
+1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)
+2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail
