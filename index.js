@@ -1,13 +1,16 @@
-// require express, also morgan and nodemon
+/**
+ * @fileOverview this is the main file of MyMovies API
+ * handles all CRUD operations for users and movies
+ */
+
+// require express, morgan, nodemon
 const express = require('express');
 const app = express();
 const uuid = require('uuid');
 const morgan = require('morgan');
 require('dotenv').config();
 
-// also import built-ins to log user requests to log.txt file?
-//(fs = require("fs")), (path = require("path"));
-
+// log requests to console
 app.use(express.json());
 
 //use CORS, allows access from all domains as per 2.10 instructions
@@ -34,7 +37,7 @@ console.log('MongoDB URI:', process.env.CONNECTION_URI);
 // connects to database so can do crud on documents
 mongoose
   .connect(process.env.CONNECTION_URI)
-  //} local connection
+  //} local connection if/when needed
   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
   //)
   .then(() => {
@@ -44,14 +47,26 @@ mongoose
     console.error('Error connecting to MongoDB:', error);
   });
 
-// sets up log.txt to receive user requests log; do we still need this?
-// const accessLogStream = fs.createWriteStream(path.join__dirname, "log.txt");
+/**
+ * GET: returns welcome message
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {String} - welcome message
+ */
 
 app.get('/', (req, res) => {
   res.send('Welcome to MyMovies!');
 });
 
-// 1. READ, returns data for all movie documents, sends jwt token along
+/**
+ * 1. GET: returns array of all movies, sends jwt token along
+ * @name GetAllMovies
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all movie documents
+ */
+
+// 1. READ, returns array of all movie documents, sends jwt token along
 app.get(
   '/movies',
   passport.authenticate('jwt', { session: false }),
@@ -64,21 +79,16 @@ app.get(
       console.error(err);
       res.status(500).send('Error: ' + err);
     }
-    /**
-    // no parameters, will return all movies
-    await Movies.find()
-      // confirmation response to client with all movie documents
-      .then((movies) => {
-        res.status(200).json(movies);
-      })
-      // error handling, status 500 server error
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-      */
   }
 );
+
+/**
+ * 2. GET: returns data for one movie, requires jwt token
+ * @name GetMovie
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - one movie document by title
+ */
 
 // 2. READ, returns one document via movie title, sends jwt token along
 app.get(
@@ -97,6 +107,14 @@ app.get(
       });
   }
 );
+
+/**
+ * 3. GET: returns data for genre, requires jwt token
+ * @name GetMovieByGenre
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all movie documents by specific genre
+ */
 
 // 3. READ, return data by genre, sends jwt token along
 app.get(
@@ -117,6 +135,14 @@ app.get(
   }
 );
 
+/**
+ * 4. GET: returns data for director, requires jwt token
+ * @name GetMovieByDirector
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all movie documents by specific director
+ */
+
 // 4. READ, return data by director, sends jwt token along
 app.get(
   '/movies/Director/:Name',
@@ -131,20 +157,16 @@ app.get(
       console.error(err);
       res.status(500).send('Error: ' + err);
     }
-    /** DONT DO THIS
-    // pass parameter of director name to find all movie documents w/that director
-    await Movies.find({ "Director.Name": req.params.Name })
-      // confirmation response to client with movie documents w/passed director
-      .then((movies) => {
-        res.json(movies);
-      })
-      // error handling, status 500 server error
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      }); */
   }
 );
+
+/**
+ * 5a. GET: returns all users, requires jwt token
+ * @name GetAllUsers
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all user documents
+ */
 
 // 5a. GET, returns all users
 app.get(
@@ -161,6 +183,14 @@ app.get(
       });
   }
 );
+
+/**
+ * 5. POST: returns data for one user, requires jwt token, hashes pw
+ * @name RegisterUser
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - new user document
+ */
 
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
 // no jwt authorization so new users can access
@@ -213,6 +243,14 @@ app.post(
     });
   }
 );
+
+/**
+ * 6. PUT: returns updated user, requires jwt token, hashes pw
+ * @name UpdatedUser
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - updated user document, profile info
+ */
 
 // 6. UPDATE, update user
 app.put(
@@ -268,6 +306,14 @@ app.put(
   }
 );
 
+/**
+ * 7. POST: returns user's favorite list, requires jwt token
+ * @name AddToFavorites
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - updated user document, favorite list
+ */
+
 // 7. CREATE, users add movies to favorites list, sends jwt token along
 app.post(
   '/users/:Username/movies/:MovieID',
@@ -294,6 +340,14 @@ app.post(
   }
 );
 
+/**
+ * 8. DELETE: removes movie from user's favorite list, requires jwt token
+ * @name RemoveFromFavorites
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - updated user document, favorite list
+ */
+
 // 8. DELETE, users remove movies from list, sends jwt token along
 app.delete(
   '/users/:Username/movies/:MovieID',
@@ -319,6 +373,14 @@ app.delete(
   }
 );
 
+/**
+ * 9. DELETE: removes user, requires jwt token
+ * @name DeleteUser
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {String} - confirmation message
+ */
+
 // 9. DELETE, removes user, sends jwt token along
 app.delete(
   '/users/:Username',
@@ -343,7 +405,8 @@ app.delete(
 
 // access documentation.html using express.static
 app.use('/documentation', express.static('public'));
-// listen on port, no longer locally hosted
+
+// listen on local port, use if locally hosted
 //const port = process.env.PORT || 5050;
 //app.listen(port, "0.0.0.0", () => {
 //console.log("Listening on Port " + port);

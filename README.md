@@ -1,5 +1,5 @@
 Overview:
-Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client. 
+Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client.
 
 Key Features:
 
@@ -35,11 +35,12 @@ Technologies Used:
 12. Data Validation: Ensures data integrity and security.
 13. Error Handling: Ensures the JavaScript code is error-free.
 14. JSON: Format for providing movie information.
-15. 15. Deployment: Heroku. 
+15. Deployment: Heroku.
 
 Setup Instructions/Commands:
 Local Setup:
-1.Install Node.js: 
+
+<p>1.Install Node.js:</p> 
   <p>a. Ensure Node.js LTS version is installed by running: nvm install --lts</p>
 <p>2. Install Packages:</p> 
   <p>a. Navigate to the project directory and install dependencies by running: npm install</p>
@@ -50,5 +51,14 @@ Local Setup:
 
 Deployment to Heroku:
 
-1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)
-2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail
+<p>1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)</p>
+<p>2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail</p>
+
+Documentation:
+
+<p>1. Add block comments to code with tags according to https://jsdoc.app/</p>
+<p>2. Install JSDoc by running: npm install -g jsdoc</p>
+<p>3. Create jsdoc.json file, see my file for specifics</p>
+<p>4. Add "doc": "jsdoc -c jsdoc.json" to package.json scripts</p>
+<p>5. Run: npm run doc</p>
+<p>6. View generated documentation in newly generated docs folder, open any in live server to view all official documentation</p>

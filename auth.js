@@ -1,30 +1,53 @@
-const jwtSecret = "your_jwt_secret"; // same key as JWTStrategy
+/**
+ * @fileOverview this file handles authentication logic
+ */
 
-const jwt = require("jsonwebtoken"),
-  passport = require("passport");
+const jwtSecret = 'your_jwt_secret'; // same key as JWTStrategy
 
-require("./passport");
+const jwt = require('jsonwebtoken'),
+  passport = require('passport');
+
+require('./passport');
+
+/**
+ * Generates a JWT token for user
+ * @param {Object} user - user object
+ * @returns {String} - JWT token
+ */
 
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     subject: user.Username, // same username as encoded in JWT
-    expiresIn: "7d",
-    algorithm: "HS256", // encodes values of JWT
+    expiresIn: '7d',
+    algorithm: 'HS256', // encodes values of JWT
   });
 };
 
+/**
+ * Module exports
+ * @param {Object} router - express router
+ */
+
 module.exports = (router) => {
+  /**
+   * POST: login user, jwt token
+   * @name /login
+   * @param {String} Username - username
+   * @param {String} Password - hashed
+   * @returns {Object} - user object, jwt token
+   */
+
   // new endpoint for registered users, http authentication, jwt token
-  router.post("/login", (req, res) => {
+  router.post('/login', (req, res) => {
     passport.authenticate(
-      "local",
+      'local',
       {
         session: false,
       },
       (error, user, info) => {
         if (error || !user) {
           return res.status(400).json({
-            message: "Something is not right.",
+            message: 'Something is not right.',
             user: user,
           });
         }
