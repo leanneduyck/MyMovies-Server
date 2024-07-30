@@ -13,9 +13,15 @@ require('dotenv').config();
 // log requests to console
 app.use(express.json());
 
-//use CORS, allows access from all domains as per 2.10 instructions
+// CORS
 const cors = require('cors');
-app.use(cors());
+app.use(
+  cors({
+    origin: '*', // allows all domains to access API
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+  })
+);
 
 // express validator library
 const { check, validationResult } = require('express-validator');
