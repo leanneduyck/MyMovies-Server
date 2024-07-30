@@ -18,8 +18,8 @@ const cors = require('cors');
 app.use(
   cors({
     origin: '*', // allows all domains to access API
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+    // methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+    // allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
   })
 );
 
