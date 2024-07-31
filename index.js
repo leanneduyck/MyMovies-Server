@@ -24,8 +24,9 @@ const cors = require('cors');
 // );
 
 const allowedOrigins = [
-  'https://main--react-mymovies.netlify.app',
-  'https://my-movies-angular.vercel.app',
+  '*',
+  // 'https://main--react-mymovies.netlify.app',
+  // 'https://my-movies-angular.vercel.app',
 ];
 
 app.use(
