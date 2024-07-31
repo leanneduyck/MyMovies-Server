@@ -13,41 +13,40 @@ require('dotenv').config();
 // log requests to console
 app.use(express.json());
 
-// CORS
-app.use(
-  cors({
-    origin: '*', // allows all domains to access API
-    // commenting out below to see if it helps with CORS
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
-    // allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
-  })
-);
+// CORS - original
+// app.use(
+//   cors({
+//     origin: '*', // allows all domains to access API
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+//     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+//   })
+// );
 
 // more robust CORS logic
 
-// const allowedOrigins = [
-//   // 'https://main--react-mymovies.netlify.app',
-//   // 'https://my-movies-angular.vercel.app',
-// ];
+const allowedOrigins = [
+  'https://main--react-mymovies.netlify.app',
+  'https://my-movies-angular.vercel.app',
+];
 
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       // allow requests with no origin (like mobile apps or curl requests)
-//       if (!origin) return callback(null, true);
-//       if (allowedOrigins.indexOf(origin) === -1) {
-//         const msg =
-//           'The CORS policy for this site does not allow access from the specified origin.';
-//         return callback(new Error(msg), false);
-//       }
-//       return callback(null, true);
-//     },
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     credentials: true,
-//     optionsSuccessStatus: 204,
-//   })
-// );
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          'The CORS policy for this site does not allow access from the specified origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
 
 // handle preflight requests - trying below to see if works better
 // app.options(
