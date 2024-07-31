@@ -11,9 +11,14 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 // log requests to console
+app.use(morgan('dev'));
 app.use(express.json());
 
 // CORS - original
+// now getting errors with this one, esp using TS
+// app.use(cors('*'));
+
+// CORS - a bit more
 // app.use(
 //   cors({
 //     origin: '*', // allows all domains to access API
@@ -22,12 +27,10 @@ app.use(express.json());
 //   })
 // );
 
-// more robust CORS logic
-
+// CORS - most robust
 const allowedOrigins = [
   'https://my---movies-868565568c2a.herokuapp.com',
   'https://main--react-mymovies.netlify.app',
-  'https://my---movies-868565568c2a.herokuapp.com/login',
   'https://my-movies-angular.vercel.app',
 ];
 
@@ -50,31 +53,10 @@ app.use(
   })
 );
 
-// handle preflight requests - trying below to see if works better
-// app.options(
-//   '*',
-//   cors({
-//     origin: function (origin, callback) {
-//       // allow requests with no origin (like mobile apps or curl requests)
-//       if (!origin) return callback(null, true);
-//       if (allowedOrigins.indexOf(origin) === -1) {
-//         const msg =
-//           'The CORS policy for this site does not allow access from the specified origin.';
-//         return callback(new Error(msg), false);
-//       }
-//       return callback(null, true);
-//     },
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     credentials: true,
-//     optionsSuccessStatus: 204,
-//   })
-// );
-
 // handles preflight requests
 app.options('*', cors());
 
-// adding this to see if it helps with CORS
+// uses express.json middleware
 app.use(express.json());
 
 // express validator library
