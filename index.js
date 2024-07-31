@@ -37,6 +37,7 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log(`Origin: ${origin}`); // debugging
       // allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
@@ -55,9 +56,6 @@ app.use(
 
 // handles preflight requests
 app.options('*', cors());
-
-// uses express.json middleware
-app.use(express.json());
 
 // express validator library
 const { check, validationResult } = require('express-validator');
@@ -454,7 +452,7 @@ app.use('/documentation', express.static('public'));
 //console.log("Listening on Port " + port);
 //});
 
-const PORT = process.env.PORT || 8889;
+const PORT = process.env.PORT || 8080; // changed from 8889 to match heroku
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
