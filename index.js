@@ -25,7 +25,7 @@ app.use(express.json());
 // more robust CORS logic
 
 const allowedOrigins = [
-  'https://main---react-mymovies.netlify.app',
+  'https://my---movies-868565568c2a.herokuapp.com',
   'https://my-movies-angular.vercel.app',
 ];
 
