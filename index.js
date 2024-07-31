@@ -14,7 +14,7 @@ require('dotenv').config();
 app.use(express.json());
 
 // CORS - trying below to see if works better
-// const cors = require('cors');
+const cors = require('cors');
 // app.use(
 //   cors({
 //     origin: '*', // allows all domains to access API
@@ -25,7 +25,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   'https://main--react-mymovies.netlify.app',
-  'https://my-movies-angular.vercel.app/',
+  'https://my-movies-angular.vercel.app',
 ];
 
 app.use(
