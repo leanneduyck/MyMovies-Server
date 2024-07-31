@@ -26,6 +26,8 @@ app.use(express.json());
 
 const allowedOrigins = [
   'https://my---movies-868565568c2a.herokuapp.com',
+  'https://main--react-mymovies.netlify.app',
+  'https://my---movies-868565568c2a.herokuapp.com/login',
   'https://my-movies-angular.vercel.app',
 ];
 
