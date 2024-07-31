@@ -13,13 +13,58 @@ require('dotenv').config();
 // log requests to console
 app.use(express.json());
 
-// CORS
-const cors = require('cors');
+// CORS - trying below to see if works better
+// const cors = require('cors');
+// app.use(
+//   cors({
+//     origin: '*', // allows all domains to access API
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+//     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+//   })
+// );
+
+const allowedOrigins = [
+  'https://main--react-mymovies.netlify.app',
+  'https://my-movies-angular.vercel.app/',
+];
+
 app.use(
   cors({
-    origin: '*', // allows all domains to access API
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          'The CORS policy for this site does not allow access from the specified origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
+
+// handle preflight requests
+app.options(
+  '*',
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          'The CORS policy for this site does not allow access from the specified origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 204,
   })
 );
 
