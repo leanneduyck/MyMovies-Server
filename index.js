@@ -47,26 +47,28 @@ app.use(
   })
 );
 
-// handle preflight requests
-app.options(
-  '*',
-  cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg =
-          'The CORS policy for this site does not allow access from the specified origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-    optionsSuccessStatus: 204,
-  })
-);
+// handle preflight requests - trying below to see if works better
+// app.options(
+//   '*',
+//   cors({
+//     origin: function (origin, callback) {
+//       // allow requests with no origin (like mobile apps or curl requests)
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         const msg =
+//           'The CORS policy for this site does not allow access from the specified origin.';
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     },
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//     optionsSuccessStatus: 204,
+//   })
+// );
+
+app.options('*', cors());
 
 // express validator library
 const { check, validationResult } = require('express-validator');
