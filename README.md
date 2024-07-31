@@ -54,6 +54,13 @@ Deployment to Heroku:
 <p>1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)</p>
 <p>2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail</p>
 
+Github:
+To push:
+
+1. Run: git add .
+2. Run: git commit -m "Your commit message"
+3. Run: git push
+
 Documentation:
 
 <p>1. Add block comments to code with tags according to https://jsdoc.app/</p>

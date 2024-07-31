@@ -16,11 +16,11 @@ app.use(express.json());
 // CORS
 const cors = require('cors');
 app.use(
-  cors() //{
-  //origin: '*', // allows all domains to access API
-  // methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
-  // allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
-  //}
+  cors({
+    origin: '*', // allows all domains to access API
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+  })
 );
 
 // express validator library
