@@ -17,15 +17,15 @@ app.use(express.json());
 app.use(
   cors({
     origin: '*', // allows all domains to access API
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+    // commenting out below to see if it helps with CORS
+    // methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+    // allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
   })
 );
 
 // more robust CORS logic
 
 // const allowedOrigins = [
-//   '*',
 //   // 'https://main--react-mymovies.netlify.app',
 //   // 'https://my-movies-angular.vercel.app',
 // ];
@@ -70,6 +70,7 @@ app.use(
 //   })
 // );
 
+// handles preflight requests
 app.options('*', cors());
 
 // adding this to see if it helps with CORS
