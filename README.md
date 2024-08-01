@@ -37,17 +37,24 @@ Technologies Used:
 14. JSON: Format for providing movie information.
 15. Deployment: Heroku.
 
-Setup Instructions/Commands:
+Setup Instructions:
+
+Database:
+
+<p>1. Create MongoDBAtlas account if necessary.</p>
+<p>2. Create a new cluster and database</p>
+  <p>a. Whitelist your IP address.</p>
+  <p>b. Obtain connection string for MongoDB Atlas database</p>
+  <p>c. Update .env file with MONGODB_URI and JWT_SECRET</p>
+
 Local Setup:
 
 <p>1.Install Node.js:</p> 
   <p>a. Ensure Node.js LTS version is installed by running: nvm install --lts</p>
 <p>2. Install Packages:</p> 
   <p>a. Navigate to the project directory and install dependencies by running: npm install</p>
-<p>3. Environment Variables:</p> 
-  <p>a. Add a .env file to manage environment variables like database URI and JWT secret.</p> 
 <p>4. Start Local Server:</p> 
-  <p>a.Run the server locally by running: npm start node.js</p>
+  <p>a.Run the server locally by running: npm start / npm start node.js / npm run dev</p>
 
 Deployment to Heroku:
 

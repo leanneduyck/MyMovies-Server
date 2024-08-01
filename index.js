@@ -16,7 +16,7 @@ app.use(express.json());
 
 // CORS - original
 // now getting errors with this one, esp using TS
-// app.use(cors('*'));
+app.use(cors('*'));
 
 // CORS - a bit more
 // app.use(
@@ -28,34 +28,35 @@ app.use(express.json());
 // );
 
 // CORS - most robust
-const allowedOrigins = [
-  'https://my---movies-868565568c2a.herokuapp.com',
-  'https://main--react-mymovies.netlify.app',
-  'https://my-movies-angular.vercel.app',
-];
+// const allowedOrigins = [
+//   'https://my---movies-868565568c2a.herokuapp.com',
+//   'https://main--react-mymovies.netlify.app',
+//   'https://my-movies-angular.vercel.app',
+// ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      console.log(`Origin: ${origin}`); // debugging
-      // allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg =
-          'The CORS policy for this site does not allow access from the specified origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-    optionsSuccessStatus: 204,
-  })
-);
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       console.log(`Origin:`); // debugging
+//       // allow requests with no origin (like mobile apps or curl requests)
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         const msg =
+//           'The CORS policy for this site does not allow access from the specified origin.';
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     },
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//     optionsSuccessStatus: 204,
+//   })
+// );
 
+// commenting out to troubleshoot
 // handles preflight requests
-app.options('*', cors());
+// app.options('*', cors());
 
 // express validator library
 const { check, validationResult } = require('express-validator');
