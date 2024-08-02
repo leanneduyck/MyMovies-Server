@@ -14,18 +14,14 @@ require('dotenv').config();
 app.use(morgan('dev'));
 app.use(express.json());
 
-// trying this as per chatGPT errors in React app
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// tring this as per chatGPT errors in React app
-// Ensure correct MIME type for JavaScript modules
-app.use((req, res, next) => {
-  if (req.url.endsWith('.js')) {
-    res.type('application/javascript');
-  }
-  next();
-});
+// tried this to fix MIME errors in local host React app, broke Angular app worse
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use((req, res, next) => {
+//   if (req.url.endsWith('.js')) {
+//     res.type('application/javascript');
+//   }
+//   next();
+// });
 
 // CORS - original
 // now getting errors with this one, esp using TS
