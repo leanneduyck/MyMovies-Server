@@ -33,6 +33,8 @@ app.use(
     origin: '*', // allows all domains to access API
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // allows these methods
     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+    preflightContinue: false, // do not pass the CORS preflight response to the next handler
+    optionsSuccessStatus: 204, // status to send for OPTIONS requests
   })
 );
 
