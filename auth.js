@@ -51,6 +51,7 @@ module.exports = (router) => {
             user: user,
           });
         }
+        res.setHeader('Access-Control-Allow-Origin', '*');
         req.login(
           user,
           {
