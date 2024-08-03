@@ -25,13 +25,13 @@ app.use(express.json());
 
 // CORS - original
 // now getting errors with this one, esp using TS
-app.use(cors('*'));
+// app.use(cors('*'));
 
 // CORS - a bit more
 app.use(
   cors({
     origin: '*', // allows all domains to access API
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // allows these methods
     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
   })
 );
@@ -65,7 +65,7 @@ app.use(
 
 // commenting out to troubleshoot
 // handles preflight requests
-app.options('*', cors());
+// app.options('*', cors());
 
 // express validator library
 const { check, validationResult } = require('express-validator');
