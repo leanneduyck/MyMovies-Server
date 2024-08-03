@@ -70,7 +70,7 @@ app.use(cors('*'));
 // app.options('*', cors());
 
 // express validator library
-const { check, validationResult } = require('express-validator');
+// const { check, validationResult } = require('express-validator');
 
 // ensures express available in auth.js file, also requires passport module
 let auth = require('./auth')(app);
@@ -250,25 +250,25 @@ app.post(
   '/users/create',
   // validation for username, email, pw
   [
-    check(
-      'Username',
-      'Username is required, with a minimum of 5 characters.'
-    ).isLength({ min: 5 }),
-    check(
-      'Username',
-      'Username contains non alphanumberic characters which is not allowed.'
-    ).isAlphanumeric(),
-    check('Username', 'Username is required.').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid.').isEmail(),
-    check('Email', 'Email is required.').not().isEmpty(),
-    check('Password', 'Password is required.').not().isEmpty(),
+    // check(
+    //   'Username',
+    //   'Username is required, with a minimum of 5 characters.'
+    // ).isLength({ min: 5 }),
+    // check(
+    //   'Username',
+    //   'Username contains non alphanumberic characters which is not allowed.'
+    // ).isAlphanumeric(),
+    // check('Username', 'Username is required.').not().isEmpty(),
+    // check('Email', 'Email does not appear to be valid.').isEmail(),
+    // check('Email', 'Email is required.').not().isEmpty(),
+    // check('Password', 'Password is required.').not().isEmpty(),
   ],
   async (req, res) => {
     // checks validation for errors, will not execute if error found
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(442).json({ errors: errors.array() });
-    }
+    // let errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(442).json({ errors: errors.array() });
+    // }
     // hashes pw
     let hashedPassword = Users.hashPassword(req.body.Password);
     // checks if user already exists
@@ -309,27 +309,27 @@ app.put(
   '/users/:Username',
   // validation for username, email, pw
   [
-    check(
-      'Username',
-      'Username is required, with a minimum of 5 characters.'
-    ).isLength({ min: 5 }),
-    check(
-      'Username',
-      'Username contains non alphanumberic characters which is not allowed.'
-    ).isAlphanumeric(),
-    check('Username', 'Username is required.').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid.').isEmail(),
-    check('Email', 'Email is required.').not().isEmpty(),
-    check('Password', 'Password is required.').not().isEmpty(),
+    // check(
+    //   'Username',
+    //   'Username is required, with a minimum of 5 characters.'
+    // ).isLength({ min: 5 }),
+    // check(
+    //   'Username',
+    //   'Username contains non alphanumberic characters which is not allowed.'
+    // ).isAlphanumeric(),
+    // check('Username', 'Username is required.').not().isEmpty(),
+    // check('Email', 'Email does not appear to be valid.').isEmail(),
+    // check('Email', 'Email is required.').not().isEmpty(),
+    // check('Password', 'Password is required.').not().isEmpty(),
   ],
   // sends jwt token along
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     // checks validation for errors, will not execute if error found
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(442).json({ errors: errors.array() });
-    }
+    // let errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(442).json({ errors: errors.array() });
+    // }
     // hashes pw
     let hashedPassword = Users.hashPassword(req.body.Password);
     console.log(req.body);
