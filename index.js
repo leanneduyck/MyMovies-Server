@@ -28,13 +28,13 @@ app.use(express.json());
 app.use(cors('*'));
 
 // CORS - a bit more
-// app.use(
-//   cors({
-//     origin: '*', // allows all domains to access API
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
-//     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
-//   })
-// );
+app.use(
+  cors({
+    origin: '*', // allows all domains to access API
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allows these methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+  })
+);
 
 // CORS - most robust
 // const allowedOrigins = [
@@ -65,7 +65,7 @@ app.use(cors('*'));
 
 // commenting out to troubleshoot
 // handles preflight requests
-// app.options('*', cors());
+app.options('*', cors());
 
 // express validator library
 const { check, validationResult } = require('express-validator');
