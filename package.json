@@ -23,8 +23,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "tape": "^5.7.5",
-    "uuid": "^9.0.1",
-    "express-validator": "^7.1.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "jsdoc": "^4.0.3",
