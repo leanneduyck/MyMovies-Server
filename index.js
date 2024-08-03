@@ -25,18 +25,18 @@ app.use(express.json());
 
 // CORS - original
 // now getting errors with this one, esp using TS
-// app.use(cors('*'));
+app.use(cors('*'));
 
 // CORS - a bit more
-app.use(
-  cors({
-    origin: '*', // allows all domains to access API
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // allows these methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
-    preflightContinue: false, // do not pass the CORS preflight response to the next handler
-    optionsSuccessStatus: 204, // status to send for OPTIONS requests
-  })
-);
+// app.use(
+//   cors({
+//     origin: '*', // allows all domains to access API
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // allows these methods
+//     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+//     preflightContinue: false, // do not pass the CORS preflight response to the next handler
+//     optionsSuccessStatus: 204, // status to send for OPTIONS requests
+//   })
+// );
 
 // CORS - most robust
 // const allowedOrigins = [
