@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      1. READ, returns data for all movie documents, sends jwt token along /** *
+      @name getMovies * @param {string} /movies' - endpoint for all movie
+      documents * @param {function} passport.authenticate - jwt token sent along
+      * @param {function} async - asynchronous function * @returns {array<object
+      ></object>} movie documents */
+    </p>
+
+    <p>
+      2. READ, returns one document via movie title, sends jwt token along /** *
+      @name getMovieByTitle * @param {string} '/movies/:Title' - endpoint for
+      one movie document * @param {function} passport.authenticate - jwt token
+      sent along * @param {function} async - asynchronous function * @returns
+      {object} movie document */
+    </p>
+
+    <p>
+      3. READ, return data by genre, sends jwt token along /** * @name
+      getMoviesByGenre * @param {string} '/movies/Genre/:Name' - endpoint for
+      all movie documents with genre * @param {function} passport.authenticate -
+      jwt token sent along * @param {function} async - asynchronous function *
+      @returns {array<object></object>} movie documents with genre */
+    </p>
+
+    <p>
+      4. READ, return data by director, sends jwt token along /** * @name
+      getMoviesByDirector * @param {string} '/movies/Director/:Name' - endpoint
+      for all movie documents with director * @param {function}
+      passport.authenticate - jwt token sent along * @param {function} async -
+      asynchronous function * @returns {array<object></object>} movie documents
+      with director */
+    </p>
+
+    <p>
+      5. CREATE, register new user, status 201 created, 400 bad request, 500
+      server error // no jwt authorization so new users can access /** * @name
+      createUser or registerUser * @param {string}'/users/create' - endpoint for
+      new user registration * @param {string} req.body.Username * @param
+      {string} req.body.Birthday * @param {string} req.body.Email * @param
+      {string} req.body.Password * @param {function} validation - checks for
+      username, email, pw * @param {function} async - asynchronous function *
+      @returns {object} user document */
+    </p>
+
+    <p>
+      6. UPDATE, update user /** * @name updateUser * @param {string}
+      '/users/:Username' - endpoint for updating user * @param {string}
+      req.params.Username * @param {string} req.body.Username * @param {string}
+      req.body.Password * @param {function} validation - checks for username,
+      email, pw * @param {function} passport.authenticate - jwt token sent along
+      * @param {function} async - asynchronous function * @returns {object}
+      updated user document */
+    </p>
+
+    <p>
+      7. CREATE, users add movies to favorites list, sends jwt token along /** *
+      @name addFavoriteMovie * @param {string}
+      '/users/:Username/movies/:MovieID' - endpoint for adding movie to
+      favorites list * @param {string} req.params.Username * @param {string}
+      req.params.MovieID * @param {function} passport.authenticate - jwt token
+      sent along * @param {function} async - asynchronous function * @returns
+      {object} updated user document */
+    </p>
+
+    <p>
+      8. DELETE, users remove movies from list, sends jwt token along /** *
+      @name removeFavoriteMovie * @param {string}
+      '/users/:Username/movies/:MovieID' - endpoint for removing movie from
+      favorites list * @param {string} req.params.Username * @param {string}
+      req.params.MovieID * @param {function} passport.authenticate - jwt token
+      sent along * @param {function} async - asynchronous function * @returns
+      {object} updated user document */
+    </p>
+
+    <p>
+      9. DELETE, removes user, sends jwt token along /** * @name deleteUser *
+      @param {string} '/users/:Username' - endpoint for deleting user * @param
+      {string} req.params.Username * @param {function} passport.authenticate -
+      jwt token sent along * @param {function} async - asynchronous function *
+      @returns {string} confirmation message */
+    </p>
+  </body>
+</html>

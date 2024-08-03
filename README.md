@@ -1,5 +1,5 @@
 Overview:
-Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client. 
+Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client.
 
 Key Features:
 
@@ -35,11 +35,12 @@ Technologies Used:
 12. Data Validation: Ensures data integrity and security.
 13. Error Handling: Ensures the JavaScript code is error-free.
 14. JSON: Format for providing movie information.
-15. 15. Deployment: Heroku. 
+15. 15. Deployment: Heroku.
 
 Setup Instructions/Commands:
 Local Setup:
-1.Install Node.js: 
+1.Install Node.js:
+
   <p>a. Ensure Node.js LTS version is installed by running: nvm install --lts</p>
 <p>2. Install Packages:</p> 
   <p>a. Navigate to the project directory and install dependencies by running: npm install</p>
@@ -52,3 +53,10 @@ Deployment to Heroku:
 
 1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)
 2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail
+3. It is currently actually using the previous branch for deployment; check to make sure it is deploying from this branch. (AKA USE: GIT PUSH ORIGIN PREVIOUS)
+
+Documentation.
+
+1. Add JSDoc comments throughout code.
+2. Install by running: npm install -g jsdoc
+3. To generate documentation files, run: jsdoc ./ (or jsdoc index.js)
