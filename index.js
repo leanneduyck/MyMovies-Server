@@ -26,14 +26,47 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-console.log('MongoDB URI:', process.env.CONNECTION_URI);
+/** 
+ * 
+ * this section is original from working Heroku deployment
+ * switching to below logic to switch between AWS/Heroku+Netlify environments
+ * 
+// console.log('MongoDB URI:', process.env.CONNECTION_URI);
 
-// connects to database so can do crud on documents
+// // connects to database so can do crud on documents
+// mongoose
+//   .connect(process.env.CONNECTION_URI)
+//   //} local connection; leaving for when need to test locally
+//   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
+//   //)
+//   .then(() => {
+//     console.log('Connected to MongoDB.');
+//   })
+//   .catch((error) => {
+//     console.error('Error connecting to MongoDB:', error);
+//   });
+*/
+
+// logic to switch between AWS/Heroku+Netlify environments
+let MONGODB_URI;
+
+switch (process.env.NODE_ENV) {
+  case 'production':
+    MONGODB_URI = process.env.MONGODB_URI_AWS || process.env.MONGODB_URI_HEROKU;
+    break;
+  case 'development':
+    MONGODB_URI = process.env.MONGODB_URI_LOCAL;
+    break;
+  default:
+    console.error('No valid NODE_ENV specified. Using local MongoDB URI.');
+    MONGODB_URI = process.env.MONGODB_URI_LOCAL;
+}
+
+console.log('MongoDB URI:', MONGODB_URI);
+
+// Connect to MongoDB
 mongoose
-  .connect(process.env.CONNECTION_URI)
-  //} local connection; leaving for when need to test locally
-  //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
-  //)
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB.');
   })
