@@ -29,8 +29,11 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-console.log('MongoDB URI:', process.env.CONNECTION_URI);
-
+/** 
+ * 
+ * this section is original from working Heroku deployment
+ * switching to below logic to switch between AWS/Heroku+Netlify environments
+ * 
 // connects to database so can do crud on documents
 mongoose
   .connect(process.env.CONNECTION_URI)
@@ -46,6 +49,36 @@ mongoose
 
 // sets up log.txt to receive user requests log; do we still need this?
 // const accessLogStream = fs.createWriteStream(path.join__dirname, "log.txt");
+*/
+
+// logic to switch between AWS/Heroku+Netlify environments
+let MONGODB_URI;
+
+switch (process.env.NODE_ENV) {
+  case 'production':
+    MONGODB_URI = process.env.MONGODB_URI_AWS || process.env.MONGODB_URI_HEROKU;
+    break;
+  case 'development':
+    MONGODB_URI = process.env.MONGODB_URI_LOCAL;
+    break;
+  default:
+    console.error('No valid NODE_ENV specified. Using local MongoDB URI.');
+    MONGODB_URI = process.env.MONGODB_URI_LOCAL;
+}
+
+console.log('MongoDB URI:', MONGODB_URI);
+
+// Connect to MongoDB
+mongoose
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB.');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
+
+console.log('MongoDB URI:', process.env.CONNECTION_URI);
 
 app.get('/', (req, res) => {
   res.send('Welcome to MyMovies!');
