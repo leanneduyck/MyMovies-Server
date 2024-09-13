@@ -1,21 +1,76 @@
-// require express, also morgan and nodemon
+/**
+ * @fileOverview this is the main file of MyMovies API
+ * handles all CRUD operations for users and movies
+ */
+
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const uuid = require('uuid');
 const morgan = require('morgan');
 require('dotenv').config();
 
-// also import built-ins to log user requests to log.txt file?
-//(fs = require("fs")), (path = require("path"));
-
+// log requests to console
+app.use(morgan('dev'));
 app.use(express.json());
 
-//use CORS, allows access from all domains as per 2.10 instructions
-const cors = require('cors');
-app.use(cors());
+// tried this to fix MIME errors in local host React app, broke Angular app worse
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use((req, res, next) => {
+//   if (req.url.endsWith('.js')) {
+//     res.type('application/javascript');
+//   }
+//   next();
+// });
+
+// CORS - original
+// now getting errors with this one, esp using TS
+app.use(cors('*'));
+
+// CORS - a bit more
+// app.use(
+//   cors({
+//     origin: '*', // allows all domains to access API
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // allows these methods
+//     allowedHeaders: ['Content-Type', 'Authorization'], // allows these headers
+//     preflightContinue: false, // do not pass the CORS preflight response to the next handler
+//     optionsSuccessStatus: 204, // status to send for OPTIONS requests
+//   })
+// );
+
+// CORS - most robust
+// const allowedOrigins = [
+//   'https://my---movies-868565568c2a.herokuapp.com',
+//   'https://main--react-mymovies.netlify.app',
+//   'https://my-movies-angular.vercel.app',
+// ];
+
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       console.log(`Origin:`); // debugging
+//       // allow requests with no origin (like mobile apps or curl requests)
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         const msg =
+//           'The CORS policy for this site does not allow access from the specified origin.';
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     },
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//     optionsSuccessStatus: 204,
+//   })
+// );
+
+// commenting out to troubleshoot
+// handles preflight requests
+// app.options('*', cors());
 
 // express validator library
-const { check, validationResult } = require('express-validator');
+// const { check, validationResult } = require('express-validator');
 
 // ensures express available in auth.js file, also requires passport module
 let auth = require('./auth')(app);
@@ -37,7 +92,7 @@ const Users = Models.User;
 // connects to database so can do crud on documents
 mongoose
   .connect(process.env.CONNECTION_URI)
-  //} local connection
+  //} local connection if/when needed
   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
   //)
   .then(() => {
@@ -84,7 +139,15 @@ app.get('/', (req, res) => {
   res.send('Welcome to MyMovies!');
 });
 
-// 1. READ, returns data for all movie documents, sends jwt token along
+/**
+ * 1. GET: returns array of all movies, sends jwt token along
+ * @name GetAllMovies
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all movie documents
+ */
+
+// 1. READ, returns array of all movie documents, sends jwt token along
 app.get(
   '/movies',
   passport.authenticate('jwt', { session: false }),
@@ -97,21 +160,16 @@ app.get(
       console.error(err);
       res.status(500).send('Error: ' + err);
     }
-    /**
-    // no parameters, will return all movies
-    await Movies.find()
-      // confirmation response to client with all movie documents
-      .then((movies) => {
-        res.status(200).json(movies);
-      })
-      // error handling, status 500 server error
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-      */
   }
 );
+
+/**
+ * 2. GET: returns data for one movie, requires jwt token
+ * @name GetMovie
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - one movie document by title
+ */
 
 // 2. READ, returns one document via movie title, sends jwt token along
 app.get(
@@ -130,6 +188,14 @@ app.get(
       });
   }
 );
+
+/**
+ * 3. GET: returns data for genre, requires jwt token
+ * @name GetMovieByGenre
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all movie documents by specific genre
+ */
 
 // 3. READ, return data by genre, sends jwt token along
 app.get(
@@ -150,6 +216,14 @@ app.get(
   }
 );
 
+/**
+ * 4. GET: returns data for director, requires jwt token
+ * @name GetMovieByDirector
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all movie documents by specific director
+ */
+
 // 4. READ, return data by director, sends jwt token along
 app.get(
   '/movies/Director/:Name',
@@ -164,20 +238,16 @@ app.get(
       console.error(err);
       res.status(500).send('Error: ' + err);
     }
-    /** DONT DO THIS
-    // pass parameter of director name to find all movie documents w/that director
-    await Movies.find({ "Director.Name": req.params.Name })
-      // confirmation response to client with movie documents w/passed director
-      .then((movies) => {
-        res.json(movies);
-      })
-      // error handling, status 500 server error
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      }); */
   }
 );
+
+/**
+ * 5a. GET: returns all users, requires jwt token
+ * @name GetAllUsers
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - all user documents
+ */
 
 // 5a. GET, returns all users
 app.get(
@@ -195,31 +265,39 @@ app.get(
   }
 );
 
+/**
+ * 5. POST: returns data for one user, requires jwt token, hashes pw
+ * @name RegisterUser
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - new user document
+ */
+
 // 5. CREATE, register new user, status 201 created, 400 bad request, 500 server error
 // no jwt authorization so new users can access
 app.post(
   '/users/create',
   // validation for username, email, pw
   [
-    check(
-      'Username',
-      'Username is required, with a minimum of 5 characters.'
-    ).isLength({ min: 5 }),
-    check(
-      'Username',
-      'Username contains non alphanumberic characters which is not allowed.'
-    ).isAlphanumeric(),
-    check('Username', 'Username is required.').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid.').isEmail(),
-    check('Email', 'Email is required.').not().isEmpty(),
-    check('Password', 'Password is required.').not().isEmpty(),
+    // check(
+    //   'Username',
+    //   'Username is required, with a minimum of 5 characters.'
+    // ).isLength({ min: 5 }),
+    // check(
+    //   'Username',
+    //   'Username contains non alphanumberic characters which is not allowed.'
+    // ).isAlphanumeric(),
+    // check('Username', 'Username is required.').not().isEmpty(),
+    // check('Email', 'Email does not appear to be valid.').isEmail(),
+    // check('Email', 'Email is required.').not().isEmpty(),
+    // check('Password', 'Password is required.').not().isEmpty(),
   ],
   async (req, res) => {
     // checks validation for errors, will not execute if error found
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(442).json({ errors: errors.array() });
-    }
+    // let errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(442).json({ errors: errors.array() });
+    // }
     // hashes pw
     let hashedPassword = Users.hashPassword(req.body.Password);
     // checks if user already exists
@@ -247,32 +325,40 @@ app.post(
   }
 );
 
+/**
+ * 6. PUT: returns updated user, requires jwt token, hashes pw
+ * @name UpdatedUser
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - updated user document, profile info
+ */
+
 // 6. UPDATE, update user
 app.put(
   '/users/:Username',
   // validation for username, email, pw
   [
-    check(
-      'Username',
-      'Username is required, with a minimum of 5 characters.'
-    ).isLength({ min: 5 }),
-    check(
-      'Username',
-      'Username contains non alphanumberic characters which is not allowed.'
-    ).isAlphanumeric(),
-    check('Username', 'Username is required.').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid.').isEmail(),
-    check('Email', 'Email is required.').not().isEmpty(),
-    check('Password', 'Password is required.').not().isEmpty(),
+    // check(
+    //   'Username',
+    //   'Username is required, with a minimum of 5 characters.'
+    // ).isLength({ min: 5 }),
+    // check(
+    //   'Username',
+    //   'Username contains non alphanumberic characters which is not allowed.'
+    // ).isAlphanumeric(),
+    // check('Username', 'Username is required.').not().isEmpty(),
+    // check('Email', 'Email does not appear to be valid.').isEmail(),
+    // check('Email', 'Email is required.').not().isEmpty(),
+    // check('Password', 'Password is required.').not().isEmpty(),
   ],
   // sends jwt token along
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     // checks validation for errors, will not execute if error found
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(442).json({ errors: errors.array() });
-    }
+    // let errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(442).json({ errors: errors.array() });
+    // }
     // hashes pw
     let hashedPassword = Users.hashPassword(req.body.Password);
     console.log(req.body);
@@ -301,6 +387,14 @@ app.put(
   }
 );
 
+/**
+ * 7. POST: returns user's favorite list, requires jwt token
+ * @name AddToFavorites
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - updated user document, favorite list
+ */
+
 // 7. CREATE, users add movies to favorites list, sends jwt token along
 app.post(
   '/users/:Username/movies/:MovieID',
@@ -327,6 +421,14 @@ app.post(
   }
 );
 
+/**
+ * 8. DELETE: removes movie from user's favorite list, requires jwt token
+ * @name RemoveFromFavorites
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {Object} - updated user document, favorite list
+ */
+
 // 8. DELETE, users remove movies from list, sends jwt token along
 app.delete(
   '/users/:Username/movies/:MovieID',
@@ -352,6 +454,14 @@ app.delete(
   }
 );
 
+/**
+ * 9. DELETE: removes user, requires jwt token
+ * @name DeleteUser
+ * @param {Object} req - HTTP request object
+ * @param {Object} res - HTTP response object
+ * @returns {String} - confirmation message
+ */
+
 // 9. DELETE, removes user, sends jwt token along
 app.delete(
   '/users/:Username',
@@ -376,13 +486,14 @@ app.delete(
 
 // access documentation.html using express.static
 app.use('/documentation', express.static('public'));
-// listen on port, no longer locally hosted
+
+// listen on local port, use if locally hosted
 //const port = process.env.PORT || 5050;
 //app.listen(port, "0.0.0.0", () => {
 //console.log("Listening on Port " + port);
 //});
 
-const PORT = process.env.PORT || 8889;
+const PORT = process.env.PORT || 8080; // changed from 8889 to match heroku
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
