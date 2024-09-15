@@ -1,3 +1,5 @@
+CURRENT WORKING BRANCH IS 'PREVIOUS'
+
 Overview:
 Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client.
 
@@ -58,7 +60,9 @@ Local Setup:
 
 Deployment to Heroku:
 
-<p>1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)</p>
+<p>0. Automatically pushes main branch on Heroku when commits made.</p>
+<p>0. NEED TO MANUALLY DEPLOY PREVIOUS BRANCH AS COMMITS MADE (CURRENT WORKING BRANCH)</p>
+  <p></p>1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)</p>
 <p>2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail</p>
 
 Github:
