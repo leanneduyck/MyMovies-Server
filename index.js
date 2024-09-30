@@ -1,11 +1,33 @@
-// require express, also morgan and nodemon
+// module requirements
 const express = require('express');
 const app = express();
 const uuid = require('uuid');
 const morgan = require('morgan');
+// AWS-SDK modules
+const fileUpload = require('express-fileupload');
+const {
+  S3Client,
+  ListObjectsV2Command,
+  PutObjectCommand,
+} = require('@aws-sdk/client-s3');
 require('dotenv').config();
 
 app.use(express.json());
+
+// AWS middleware for file upload
+app.use(fileUpload());
+
+// configures S3 client
+const s3Client = new S3Client({
+  // region: process.env.AWS_REGION, // set region in .env file
+  // trying below:
+  region: 'us-east-1',
+  endpoint: 'http://52.5.87.45:8080',
+  forcePathStyle: true,
+});
+
+// configures S3 bucket name
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME; // set bucket name in .env file
 
 //use CORS, allows access from all domains as per 2.10 instructions
 const cors = require('cors');
@@ -394,6 +416,58 @@ app.delete(
       });
   }
 );
+
+// 10. POST, users upload images to AWS S3 bucket
+app.post('/images/:Username', async (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  const file = req.files.image;
+  const uploadParams = {
+    Bucket: BUCKET_NAME,
+    Key: file.name,
+    Body: file.data,
+  };
+
+  try {
+    const data = await s3Client.send(new PutObjectCommand(uploadParams));
+    res.send(`File uploaded successfully. ${data.ETag}`);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// 11. GET, lists all images in S3 bucket
+app.get('/images/:Username', async (req, res) => {
+  const listObjectsParams = {
+    Bucket: BUCKET_NAME,
+  };
+
+  try {
+    const data = await s3Client.send(
+      new ListObjectsV2Command(listObjectsParams)
+    );
+    res.send(data.Contents); // Returns a list of objects in the bucket
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// 12. GET, returns one image from S3 bucket
+app.get('/images/:ImageID', async (req, res) => {
+  const downloadParams = {
+    Bucket: BUCKET_NAME,
+    Key: req.params.name,
+  };
+
+  try {
+    const data = await s3Client.send(new GetObjectCommand(downloadParams));
+    res.send(data.Body);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 // access documentation.html using express.static
 app.use('/documentation', express.static('public'));
