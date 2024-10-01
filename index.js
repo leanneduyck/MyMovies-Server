@@ -29,7 +29,7 @@ const s3Client = new S3Client({
 // configures S3 bucket name
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME; // set bucket name in .env file
 
-//use CORS, allows access from all domains as per 2.10 instructions
+// use CORS, allows access from all domains as per 2.10 instructions
 const cors = require('cors');
 app.use(cors());
 
@@ -41,7 +41,7 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-//import mongoose and models
+// import mongoose and models
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
@@ -52,11 +52,10 @@ console.log('MongoDB URI:', process.env.CONNECTION_URI);
 
 // connects to database so can do crud on documents
 mongoose
-  .connect(
-    process.env.CONNECTION_URI,
-    // ***THIS LINE IS ADDED FOR AWS EXPERIMENT***REMOVE WHEN GO BACK TO HEROKU***
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   //} local connection; leaving for when need to test locally
   //`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.lx41vnw.mongodb.net/MyMovies?retryWrites=true&w=majority&appName=Cluster1`
   //)
@@ -426,7 +425,7 @@ app.post('/images/:Username', async (req, res) => {
   const file = req.files.image;
   const uploadParams = {
     Bucket: BUCKET_NAME,
-    Key: file.name,
+    Key: `${req.params.Username}/${file.name}`, // organize by file name
     Body: file.data,
   };
 
@@ -440,17 +439,35 @@ app.post('/images/:Username', async (req, res) => {
 
 // 11. GET, lists all images in S3 bucket
 app.get('/images/:Username', async (req, res) => {
+  // query type of images to list, default to 'original'
+  const { type = 'original' } = req.query;
+
+  // validate that the type is either 'original' or 'resized'
+  if (!['original', 'resized'].includes(type)) {
+    return res
+      .status(400)
+      .send("Invalid type parameter. Use 'original' or 'resized'.");
+  }
+
+  // define the prefix based on the specified type
+  const imagePrefix = `${req.params.Username}/${
+    type === 'resized' ? 'resized-images/' : 'original-images/'
+  }`;
+
   const listObjectsParams = {
     Bucket: BUCKET_NAME,
+    Prefix: imagePrefix, // only list objects under the specified type
   };
 
   try {
+    // fetch the list of objects from S3 based on the prefix
     const data = await s3Client.send(
       new ListObjectsV2Command(listObjectsParams)
     );
-    res.send(data.Contents); // Returns a list of objects in the bucket
+    const imageKeys = data.Contents.map((item) => item.Key);
+    res.send(imageKeys); // send the list of image keys as response
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).send(`Error retrieving images: ${err.message}`);
   }
 });
 
@@ -458,7 +475,7 @@ app.get('/images/:Username', async (req, res) => {
 app.get('/images/:ImageID', async (req, res) => {
   const downloadParams = {
     Bucket: BUCKET_NAME,
-    Key: req.params.name,
+    Key: req.params.ImageID,
   };
 
   try {
