@@ -22,8 +22,6 @@ const s3Client = new S3Client({
   // region: process.env.AWS_REGION, // set region in .env file
   // trying below:
   region: 'us-east-1',
-  endpoint: 'http://52.5.87.45:8080',
-  forcePathStyle: true,
 });
 
 // configures S3 bucket name
@@ -425,7 +423,7 @@ app.post('/images/:Username', async (req, res) => {
   const file = req.files.image;
   const uploadParams = {
     Bucket: BUCKET_NAME,
-    Key: `${req.params.Username}/${file.name}`, // organize by file name
+    Key: `original-images/${req.params.Username}/${file.name}`, // organize by file name
     Body: file.data,
   };
 
