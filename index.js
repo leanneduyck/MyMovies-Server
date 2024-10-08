@@ -448,20 +448,34 @@ app.get('/images/:Username', async (req, res) => {
   }
 
   // define the prefix based on the specified type
-  const imagePrefix = `${req.params.Username}/${
-    type === 'resized' ? 'resized-images/' : 'original-images/'
-  }`;
+  // const imagePrefix = `${req.params.Username}/${
+  //   type === 'resized' ? 'resized-images/' : 'original-images/'
+  // }`;
 
-  const listObjectsParams = {
+  const originalPrefix = `original-images/${req.params.Username}/`;
+  const resizedPrefix = `resized-images/${req.params.Username}/`;
+
+  const listOriginalParams = {
     Bucket: BUCKET_NAME,
-    Prefix: imagePrefix, // only list objects under the specified type
+    Prefix: originalPrefix, // only list objects under the specified type
+  };
+
+  const listResizedParams = {
+    Bucket: BUCKET_NAME,
+    Prefix: resizedPrefix, // only list objects under the specified type
   };
 
   try {
     // fetch the list of objects from S3 based on the prefix
-    const data = await s3Client.send(
-      new ListObjectsV2Command(listObjectsParams)
+    const originalData = await s3Client.send(
+      new ListObjectsV2Command(listOriginalParams)
     );
+    const resizedData = await s3Client.send(
+      new ListObjectsV2Command(listResizedParams)
+    );
+
+    const data = { ...originalData, ...resizedData };
+
     const imageKeys = data.Contents.map((item) => item.Key);
     res.send(imageKeys); // send the list of image keys as response
   } catch (err) {

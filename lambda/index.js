@@ -4,6 +4,7 @@ const {
   PutObjectCommand,
 } = require('@aws-sdk/client-s3');
 const sharp = require('sharp');
+// import sharp from 'sharp';
 
 // creates a new S3 client
 const s3 = new S3Client({ region: 'us-east-1' });
