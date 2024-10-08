@@ -474,7 +474,7 @@ app.get('/images/:Username', async (req, res) => {
       new ListObjectsV2Command(listResizedParams)
     );
 
-    const data = { ...originalData, ...resizedData };
+    const data = { ...originalData, ...resizedData }; //testing
 
     const imageKeys = data.Contents.map((item) => item.Key);
     res.send(imageKeys); // send the list of image keys as response
