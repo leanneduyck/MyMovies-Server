@@ -1,9 +1,12 @@
-CURRENT WORKING BRANCH IS 'PREVIOUS'
+# MyMovies-Server
 
-Overview:
+**CURRENT WORKING BRANCH IS 'PREVIOUS'**
+
+## Overview:
+
 Server: This is a RESTful API that supports functionalities for both unauthenticated and authenticated users. An unauthenticated user can sign up or log in securely using JWT authentication. Once authenticated, users can perform various actions including viewing all movies in the database, editing user data, adding or deleting movies from a FavoriteMovies array, and deleting their account. This is the backend of the app, the frontend is built in MyMovies-Client.
 
-Key Features:
+## Key Features:
 
 1. User Authentication: Secure sign-up and login for users using JWT tokens.
 2. CRUD Operations: Perform Create, Read, Update, and Delete operations on movie data.
@@ -12,16 +15,17 @@ Key Features:
 5. Validation: Input validation using express-validator to ensure data integrity and security.
 6. Logging: Use of Heroku logs for monitoring and debugging during development.
 
-Data Source:
-This app pull data from a MongoDB Atlas database that I populated.
+## Data Source:
 
-<p>Website: https://my---movies-868565568c2a.herokuapp.com/</p>
-<p>ClientSide Website (React): main--react-mymovies.netlify.app/</p>
-<p>ClientSide GH Repo (React): https://github.com/leanneduyck/MyMovies-Client.git</p>
-<p>Clientside Webiste (Angular): https://my-movies-angular.vercel.app/</p>
-<p>Clientside GH Repo (Angular): https://github.com/leanneduyck/myMovies-Angular.git</p>
+This app pulls data from a MongoDB Atlas database that I populated.
 
-Technologies Used:
+- Website: [https://my---movies-868565568c2a.herokuapp.com/](https://my---movies-868565568c2a.herokuapp.com/)
+- ClientSide Website (React): [https://main--react-mymovies.netlify.app/](https://main--react-mymovies.netlify.app/)
+- ClientSide GH Repo (React): [https://github.com/leanneduyck/MyMovies-Client.git](https://github.com/leanneduyck/MyMovies-Client.git)
+- Clientside Website (Angular): [https://my-movies-angular.vercel.app/](https://my-movies-angular.vercel.app/)
+- Clientside GH Repo (Angular): [https://github.com/leanneduyck/myMovies-Angular.git](https://github.com/leanneduyck/myMovies-Angular.git)
+
+## Technologies Used:
 
 1. MongoDB Atlas: Hosts the database, ensuring scalability and availability.
 2. Express: Provides the framework for building the API endpoints.
@@ -39,44 +43,45 @@ Technologies Used:
 14. JSON: Format for providing movie information.
 15. Deployment: Heroku.
 
-Setup Instructions:
+## Setup Instructions:
 
-Database:
+### Database:
 
-<p>1. Create MongoDBAtlas account if necessary.</p>
-<p>2. Create a new cluster and database</p>
-  <p>a. Whitelist your IP address.</p>
-  <p>b. Obtain connection string for MongoDB Atlas database</p>
-  <p>c. Update .env file with MONGODB_URI and JWT_SECRET</p>
+1. Create MongoDB Atlas account if necessary.
+2. Create a new cluster and database:
+   - Whitelist your IP address.
+   - Obtain connection string for MongoDB Atlas database.
+   - Update `.env` file with `MONGODB_URI` and `JWT_SECRET`.
 
-Local Setup:
+### Local Setup:
 
-<p>1.Install Node.js:</p> 
-  <p>a. Ensure Node.js LTS version is installed by running: nvm install --lts</p>
-<p>2. Install Packages:</p> 
-  <p>a. Navigate to the project directory and install dependencies by running: npm install</p>
-<p>4. Start Local Server:</p> 
-  <p>a.Run the server locally by running: npm start / npm start node.js / npm run dev</p>
+1. Install Node.js:
+   - Ensure Node.js LTS version is installed by running: `nvm install --lts`
+2. Install Packages:
+   - Navigate to the project directory and install dependencies by running: `npm install`
+3. Start Local Server:
+   - Run the server locally by running: `npm start` / `npm start node.js` / `npm run dev`
 
-Deployment to Heroku:
+### Deployment to Heroku:
 
-<p>0. Automatically pushes main branch on Heroku when commits made.</p>
-<p>0. NEED TO MANUALLY DEPLOY PREVIOUS BRANCH AS COMMITS MADE (CURRENT WORKING BRANCH)</p>
-  <p></p>1. Push Changes: Push changes to your Heroku remote branch by running: git push heroku main (or git push origin main)</p>
-<p>2. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: heroku logs --tail</p>
+0. Automatically pushes main branch on Heroku when commits made.
+1. **NOTE:** Manually deploy `previous` branch as commits are made (current working branch).
+2. Push Changes: Push changes to your Heroku remote branch by running: `git push heroku main` (or `git push origin main`)
+3. Check Logs: Monitor logs on Heroku for any errors or debugging messages by running: `heroku logs --tail`
 
-Github:
+## GitHub:
+
 To push:
 
-1. Run: git add .
-2. Run: git commit -m "Your commit message"
-3. Run: git push
+1. Run: `git add .`
+2. Run: `git commit -m "Your commit message"`
+3. Run: `git push`
 
-Documentation:
+## Documentation:
 
-<p>1. Add block comments to code with tags according to https://jsdoc.app/</p>
-<p>2. Install JSDoc by running: npm install -g jsdoc</p>
-<p>3. Create jsdoc.json file, see my file for specifics</p>
-<p>4. Add "doc": "jsdoc -c jsdoc.json" to package.json scripts</p>
-<p>5. Run: npm run doc</p>
-<p>6. View generated documentation in newly generated docs folder, open any in live server to view all official documentation</p>
+1. Add block comments to code with tags according to [JSDoc](https://jsdoc.app/)
+2. Install JSDoc by running: `npm install -g jsdoc`
+3. Create `jsdoc.json` file (see my file for specifics)
+4. Add `"doc": "jsdoc -c jsdoc.json"` to `package.json` scripts
+5. Run: `npm run doc`
+6. View generated documentation in newly generated `docs` folder. Open any file in live server to view all official documentation.
